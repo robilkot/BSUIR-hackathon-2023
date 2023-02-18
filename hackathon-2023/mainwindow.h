@@ -1,6 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "difficulty.h"
+#include "editor.h"
+#include "exam.h"
+#include "settings.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -15,7 +19,20 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_4_clicked();
+
 private:
+    Difficulty *difficultyWindow;
+    Settings *settingsWindow;
+    Editor *editorWindow;
+    Exam *examWindow;
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

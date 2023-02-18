@@ -17,6 +17,18 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        settings.cpp
+        settings.h
+        settings.ui
+        editor.cpp
+        editor.h
+        editor.ui
+        difficulty.cpp
+        difficulty.h
+        difficulty.ui
+        exam.cpp
+        exam.h
+        exam.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
