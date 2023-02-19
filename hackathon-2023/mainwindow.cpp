@@ -1,12 +1,12 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-
+#include <QScreen>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    //ui->centralwidget->set;
     difficultyWindow = new Difficulty();
     //соединяю слот открытия главного окна с кнопкой в окне выбора сложности
    connect(difficultyWindow,&Difficulty::mainWindow,this,&MainWindow::show);
@@ -34,17 +34,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
+    difficultyWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
     difficultyWindow->show();  // Показываем окно выбора сложности
     this->close();           // Закрываю главное окно
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    editorWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
     editorWindow->show();  // Показываем окно редактора
     this->close();         // Закрываю главное окно
 }
 void MainWindow::on_pushButton_3_clicked()
 {
+    settingsWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
     settingsWindow->show();  // Показываем окно настроек
     this->close();           // Закрываю главное окно
 }
