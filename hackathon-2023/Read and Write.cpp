@@ -25,19 +25,19 @@ public:
     Subject subject = Subject::RPIIS;
 
     pair<string, string> task{ "Empty question", "" };
-   
+
 };
 
 
 class TestQuestion : Question
 {
-   
+
 
 public:
 
     vector<pair<string, string>> options{ { "", "" }, { "", "" } };
     vector<pair<string, string>>::iterator correctAnswer = options.begin();
-    
+
 
     bool isAnswerRight(const vector<pair<string, string>>::iterator& selectedAnswer) {
         return selectedAnswer == correctAnswer;
@@ -68,12 +68,12 @@ void read(vector<Set>& test) {
 
     bool only_pic = false;
 
-    string path="input.txt";
+    string path = "input.txt";
     ifstream file(path);
 
     if (file.is_open()) {
         string temp;
-        size_t j=-1, i=-1;
+        size_t j = -1, i = -1;
         while (getline(file, temp)) {
 
             if (temp == "HISTORY" || temp == "MATH" || temp == "RPIIS") {
@@ -91,9 +91,9 @@ void read(vector<Set>& test) {
                 test[i].question.task.first = temp;
             }
             else if (temp[0] == '(') {
-              
+
                 if (test[i].testquestion.options.size() != 0) {
-                    
+
                     j = -1;
                     i++;
                     test.resize(i + 1);
@@ -114,12 +114,12 @@ void read(vector<Set>& test) {
             }
             else if (temp == "*") correct = true;
             else if (temp == "[[") {
-                
-                if (only_pic==true) {
-                    
+
+                if (only_pic == true) {
+
                     j++;
                     test[i].testquestion.options.resize(j + 1);
-                    
+
                 }
                 getline(file, temp);
                 test[i].testquestion.options[j].second = temp;
@@ -129,6 +129,10 @@ void read(vector<Set>& test) {
                 //Здесь я приваиваю
                 if (correct == true) {
                     test[i].testquestion.correctAnswer = test[i].testquestion.options.begin() + j;
+                    
+                    // DEBUG
+                    cout << "Read corrent answer " << (*(test[i].testquestion.correctAnswer)).first << "\n";
+
                     correct = false;
                 }
 
@@ -148,50 +152,58 @@ void read(vector<Set>& test) {
 
                 if (correct == true) {
                     test[i].testquestion.correctAnswer = test[i].testquestion.options.begin() + j;
+
+                    // DEBUG
+                    cout << "Read corrent answer " << (*(test[i].testquestion.correctAnswer)).first << "\n";
+
                     correct = false;
                 }
-                
+
 
 
             }
-            
+
         }
         file.close();
+    }
+    else {
+        cout << "fuck\n";
     }
 }
 
 
-
 void save(vector<Set>& test) {
-    string path="inp.txt";
+    string path = "inp.txt";
     ofstream file(path);
+
     if (file.is_open()) {
-        for (int i = 0; i < test.size(); i++) {
+        for (const auto& currentQuestion : test) {
 
-            if (test[i].question.subject == Subject::HISTORY) file << "HISTORY" << endl;
-            else if (test[i].question.subject == Subject::RPIIS) file << "RPIIS" << endl;
-            else if (test[i].question.subject == Subject::MATH) file << "MATH" << endl;
-            
-            if (test[i].question.difficulty == Difficulty::EASY) file <<"(" << 1 <<")" << endl;
-            else if(test[i].question.difficulty == Difficulty::MIDDLE) file << "(" << 2 << ")" << endl;
-            else if(test[i].question.difficulty == Difficulty::HARD) file << "(" << 3 << ")" << endl;
+            switch (currentQuestion.question.subject) {
+            case Subject::HISTORY: file << "HISTORY" << endl; break;
+            case Subject::RPIIS: file << "RPIIS" << endl; break;
+            case Subject::MATH: file << "MATH" << endl; break;
+            default: file << "NONSPECIFIED" << endl; break;
+            }
 
-            file << test[i].question.task.first << endl;
-            if(!test[i].question.task.second.empty()) file << "[" <<endl<< test[i].question.task.second << endl;
+            switch (currentQuestion.question.difficulty) {
+            case Difficulty::EASY: file << "(" << 1 << ")" << endl; break;
+            case Difficulty::MIDDLE: file << "(" << 2 << ")" << endl; break;
+            case Difficulty::HARD: file << "(" << 3 << ")" << endl; break;
+            }
 
-            for (int j = 0; j < test[i].testquestion.options.size(); j++) {
+            file << currentQuestion.question.task.first << endl;
+            if (!currentQuestion.question.task.second.empty()) file << "[" << endl << currentQuestion.question.task.second << endl;
 
+            for (const auto& option : currentQuestion.testquestion.options) {
 
+                cout << option.first << endl;
+                if (option == *(currentQuestion.testquestion.correctAnswer)) file << "*" << endl;
 
-                if (test[i].testquestion.options.begin() + j == test[i].testquestion.correctAnswer) file << "*" << endl;
-                //Вот этот вот кусок кода 
-
-
-
-                if (test[i].testquestion.options[j].first.empty()) file << "[[" << endl << test[i].testquestion.options[j].second << endl;
+               /* if (test[i].testquestion.options[j].first.empty()) file << "[[" << endl << test[i].testquestion.options[j].second << endl;
                 else if (test[i].testquestion.options[j].second.empty()) file << test[i].testquestion.options[j].first << endl;
-                else file << test[i].testquestion.options[j].first << endl << "[[" << test[i].testquestion.options[j].second << endl;
-            
+                else file << test[i].testquestion.options[j].first << endl << "[[" << test[i].testquestion.options[j].second << endl;*/
+
             }
 
         }
@@ -203,9 +215,9 @@ int main() {
     setlocale(LC_ALL, "Russian");
     vector<Set> test;
     read(test);
-   
 
-   
+
+
     save(test);
     return 0;
 }
