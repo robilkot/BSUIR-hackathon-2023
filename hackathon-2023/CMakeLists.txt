@@ -8,8 +8,10 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+
 ####################################### Здесь должен быть ваш путь ############################
-set (BOOST_ROOT "C:/boost_1_81_0/boost_1_81_0/boost_mingw_1120_64static") # Путь к библиотеке Boost
+set (BOOST_ROOT "C:/boost_1_81_0/boost_1_81_0/boost_mingw_1120_64") # Путь к библиотеке Boost
 ################################################################################################
 find_package(PythonLibs 3.9 REQUIRED) #подключение Python
 
@@ -21,15 +23,14 @@ message("Python_LIBRARIES:${Python_LIBRARIES}")
 
 
 # boost
-#set(Boost_NO_SYSTEM_PATHS true)
-#set (Boost_USE_STATIC_LIBS OFF CACHE BOOL "use static libraries from Boost")
-#set (Boost_USE_MULTITHREADED ON)
+set(Boost_NO_SYSTEM_PATHS true)
+set (Boost_USE_STATIC_LIBS OFF CACHE BOOL "use static libraries from Boost")
+set (Boost_USE_MULTITHREADED ON)
 find_package(Boost REQUIRED
   COMPONENTS
-locale python
-  system program_options thread filesystem
-  date_time chrono timer regex serialization
+ python
   )
+
 include_directories(${Boost_INCLUDE_DIRS})
 link_libraries(${Boost_LIBRARIES})
 
