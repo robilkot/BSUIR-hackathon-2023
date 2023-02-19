@@ -2,7 +2,8 @@
 #include <vector>
 #include <string>
 
-#include "comparison.h"
+#pragma once
+//#include "comparison.h"
 
 using namespace std;
 
@@ -56,7 +57,8 @@ class OpenQuestion : Question
     string correctAnswer = "Empty correct answer";
     
     float getAnswerCorrentness(string answer) {
-        return meaningSimilarity(answer, correctAnswer);
+        //return meaningSimilarity(answer, correctAnswer);
+        return 0.5;
     }
 };
 //
