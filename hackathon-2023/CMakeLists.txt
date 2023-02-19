@@ -8,7 +8,39 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-#set(CMAKE_PREFIX_PATH "C:\\Qt\\6.4.2\\mingw_64")
+####################################### Здесь должен быть ваш путь ############################
+set (BOOST_ROOT "C:/boost_1_81_0/boost_1_81_0/boost_mingw_1120_64static") # Путь к библиотеке Boost
+################################################################################################
+find_package(PythonLibs 3.9 REQUIRED) #подключение Python
+
+#Справочная инфа
+message("Python_FOUND:${Python_FOUND}")
+message("Python_VERSION:${Python_VERSION}")
+message("Python_Development_FOUND:${Python_Development_FOUND}")
+message("Python_LIBRARIES:${Python_LIBRARIES}")
+
+
+# boost
+#set(Boost_NO_SYSTEM_PATHS true)
+#set (Boost_USE_STATIC_LIBS OFF CACHE BOOL "use static libraries from Boost")
+#set (Boost_USE_MULTITHREADED ON)
+find_package(Boost REQUIRED
+  COMPONENTS
+locale python
+  system program_options thread filesystem
+  date_time chrono timer regex serialization
+  )
+include_directories(${Boost_INCLUDE_DIRS})
+link_libraries(${Boost_LIBRARIES})
+
+  # disable autolinking in boost
+  add_definitions( -DBOOST_ALL_NO_LIB )
+
+  # force all boost libraries to dynamic link (we already disabled
+  # autolinking, so I don't know why we need this, but we do!)
+  add_definitions( -DBOOST_ALL_DYN_LINK )
+
+
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
@@ -54,21 +86,15 @@ else()
         )
     endif()
 endif()
+target_include_directories(hackathon-2023 PRIVATE ${PYTHON_INCLUDE_DIRS})
+target_link_libraries(hackathon-2023 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets  ${PYTHON_LIBRARIES})
 
-target_link_libraries(hackathon-2023 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-
-set_target_properties(hackathon-2023 PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
-)
 
 install(TARGETS hackathon-2023
-    BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
+install(TARGETS hackathon-2023
+    LIBRARY DESTINATION ${Boost_INCLUDE_DIRS})
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(hackathon-2023)
 endif()
