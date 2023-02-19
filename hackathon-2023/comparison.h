@@ -6,7 +6,7 @@
 // Python 3.9 and spaCy are also needed
 // 
 // TODO: rewrite using FastText library?
-float compare_meaning(std::string sentence1, std::string sentence2)
+float meaningSimilarity(std::string sentence1, std::string sentence2)
 {
     using namespace std;
     using namespace boost::python;
@@ -27,16 +27,16 @@ float compare_meaning(std::string sentence1, std::string sentence2)
 }
 
 // Example of usage
-int main()
-{
-    Py_Initialize();
+// int main()
+// {
+    // Py_Initialize();
 
-    std::string sentence1 = "The american president",
-                sentence2 = "The president of the USA";
-    std::getline(std::cin, sentence1);
-    std::getline(std::cin, sentence2);
+    // std::string sentence1 = "The american president",
+                // sentence2 = "The president of the USA";
+    // std::getline(std::cin, sentence1);
+    // std::getline(std::cin, sentence2);
 
-    std::cout << compare_meaning(sentence1, sentence2) << std::endl;
+    // std::cout << meaningSimilarity(sentence1, sentence2) << std::endl;
 
-    Py_Finalize();
-}
+    // Py_Finalize();
+// }

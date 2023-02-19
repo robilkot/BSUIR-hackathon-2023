@@ -2,6 +2,8 @@
 #include <vector>
 #include <string>
 
+#include "comparison.h"
+
 using namespace std;
 
 enum class Difficulty {
@@ -54,7 +56,7 @@ class OpenQuestion : Question
     string correctAnswer = "Empty correct answer";
     
     float getAnswerCorrentness(string answer) {
-        // Тут должна быть хуйня из питона которая сравнивает строки по значению
+        return meaningSimilarity(answer, correctAnswer);
     }
 };
 //
