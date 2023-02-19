@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "difficulty.h"
+#include "choice.h"
 #include "editor.h"
 #include "exam.h"
 #include "settings.h"
@@ -31,7 +31,7 @@ private slots:
     void openExamWindow();
 
 private:
-    Difficulty *difficultyWindow;
+    Choice *choiceWindow;
     Settings *settingsWindow;
     Editor *editorWindow;
     Exam *examWindow;

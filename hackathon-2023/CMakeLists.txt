@@ -8,7 +8,7 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
+#set(CMAKE_PREFIX_PATH "C:\\Qt\\6.4.2\\mingw_64")
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
@@ -23,12 +23,13 @@ set(PROJECT_SOURCES
         editor.cpp
         editor.h
         editor.ui
-        difficulty.cpp
-        difficulty.h
-        difficulty.ui
+        choice.cpp
+        choice.h
+        choice.ui
         exam.cpp
         exam.h
         exam.ui
+        questions.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -2,7 +2,7 @@
 #define EDITOR_H
 
 #include <QDialog>
-
+#include "questions.cpp"
 namespace Ui {
 class Editor;
 }
@@ -21,6 +21,13 @@ private slots:
 
 private:
     Ui::Editor *ui;
+    struct Set {
+
+        Question question;
+        TestQuestion testquestion;
+        OpenQuestion openquestion;
+
+    };
 };
 
 #endif // EDITOR_H
