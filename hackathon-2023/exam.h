@@ -13,6 +13,7 @@
 #include <QQueue>
 #include <QVector>
 #include <QMovie>
+#include <QTimer>
 
 class Test;
 
@@ -24,10 +25,10 @@ class Exam;
 class Exam : public QDialog
 {
     class Prepod;
-
     Q_OBJECT
 
 public:
+
     explicit Exam(QWidget *parent = nullptr);
     ~Exam();
 

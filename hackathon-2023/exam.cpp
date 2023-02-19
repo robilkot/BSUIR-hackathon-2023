@@ -1,16 +1,98 @@
 #include "exam.h"
 #include "ui_exam.h"
 
+class Exam::Prepod {
+    uint8_t state = 5;
+    QLabel* picture; // Указатель на лейбл который представляет пикчу препода
+    QMovie *idle, *agree, *agreePartly, *disagree, *result;
 
+    public:
+    Prepod(QLabel* picture)
+    {
+        this->picture = picture;
+
+        idle = new QMovie("path/to/animated.gif");
+        agree = new QMovie("path/to/animated.gif");
+        agreePartly = new QMovie("path/to/animated.gif");
+        disagree = new QMovie("path/to/animated.gif");
+        result = new QMovie("path/to/animated.gif");
+
+        animateIdle();
+    }
+
+    ~Prepod()
+    {
+        delete idle;
+        delete agree;
+        delete agreePartly;
+        delete disagree;
+        delete result;
+    }
+
+    void animateIdle() {
+        picture->setMovie(idle);
+        idle->start();
+    }
+    void animateAgree() {
+        picture->setMovie(agree);
+
+        QTimer *timer = new QTimer();
+        connect(timer, &QTimer::timeout, [=]() {
+            agree->stop();
+            animateIdle();
+            delete timer;
+        } );
+        timer->start(1000);
+
+        agree->start();
+    }
+    void animateDisagree() {
+        picture->setMovie(disagree);
+
+        QTimer *timer = new QTimer();
+        connect(timer, &QTimer::timeout, [=]() {
+            disagree->stop();
+            animateIdle();
+            delete timer;
+        } );
+        timer->start(1000);
+
+        disagree->start();
+    }
+    void animateAgreePartly() {
+        picture->setMovie(agreePartly);
+
+        QTimer *timer = new QTimer();
+        connect(timer, &QTimer::timeout, [=]() {
+            agreePartly->stop();
+            animateIdle();
+            delete timer;
+        } );
+        timer->start(1000);
+
+        agreePartly->start();
+    }
+    void animateResult() {
+        picture->setMovie(result);
+
+        QTimer *timer = new QTimer();
+        connect(timer, &QTimer::timeout, [=]() {
+            result->stop();
+            animateIdle();
+            delete timer;
+        } );
+        timer->start(1000);
+
+        result->start();
+    }
+};
 
 Exam::Exam(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Exam)
 {
     ui->setupUi(this);
-
-    QMovie *movie = new QMovie("path/to/animated.gif");
-    ui->prepodPicture->setMovie(movie);
+    Exam::Prepod prepod(ui->prepodPicture);
 }
 
 Exam::~Exam()
@@ -18,22 +100,6 @@ Exam::~Exam()
     delete ui;
 }
 
-class Exam::Prepod {
-    uint8_t state = 5;
-
-    void animateAgree() {
-
-    }
-    void animateDisagree() {
-
-    }
-    void animateAgreePartly() {
-
-    }
-    void animateResult() {
-
-    }
-};
 
 // Кастомный элемент списка (фото+текст)
 class CustomListItem : public QListWidgetItem
