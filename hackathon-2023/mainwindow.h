@@ -28,6 +28,8 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void openExamWindow();
+
 private:
     Difficulty *difficultyWindow;
     Settings *settingsWindow;

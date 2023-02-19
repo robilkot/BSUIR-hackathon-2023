@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //ui->centralwidget->set;
+
     difficultyWindow = new Difficulty();
     //соединяю слот открытия главного окна с кнопкой в окне выбора сложности
    connect(difficultyWindow,&Difficulty::mainWindow,this,&MainWindow::show);
@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     //соединяю слот открытия главного окна с кнопкой в окне экзамена
     connect(examWindow,&Exam::mainWindow,this,&MainWindow::show);
     //соединяю слот открытия окна экзамена с кнопкой в окне сложности
-    connect(difficultyWindow,&Difficulty::examWindow,examWindow,&Exam::show);
+    connect(difficultyWindow,&Difficulty::examWindow,this,&MainWindow::openExamWindow);
 
 }
 
@@ -52,12 +52,17 @@ void MainWindow::on_pushButton_3_clicked()
     this->close();           // Закрываю главное окно
 }
 
-
 void MainWindow::on_pushButton_4_clicked()
 {
      QCoreApplication::quit();
 }
 
+void MainWindow::openExamWindow()
+{
+    examWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
+    examWindow->show();  // Показываем окно экзамена
+    this->close();           // Закрываю главное окно
+}
 
 
 
