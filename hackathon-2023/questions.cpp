@@ -44,7 +44,7 @@ class Question
 };
 
 
-class TestQuestion :public Question
+class TestQuestion : public Question
 {
 public:
     vector<pair<QString, QString>> options{ { "Empty answer 1", "" }, { "Empty answer 2", "" } };
@@ -62,7 +62,7 @@ public:
     }
 };
 
-class OpenQuestion :public Question
+class OpenQuestion : public Question
 {
 public:
     OpenQuestion(){}
@@ -72,7 +72,6 @@ public:
         //return meaningSimilarity(answer, correctAnswer);
         return 0.5;
     }
-
 };
 
 class TestElement

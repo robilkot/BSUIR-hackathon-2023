@@ -2,7 +2,7 @@
 #include "ui_exam.h"
 
 class Exam::Prepod {
-    uint8_t state = 5;
+    float state = 5;
     QLabel* picture; // Указатель на лейбл который представляет пикчу препода
     QMovie *idle, *agree, *agreePartly, *disagree, *result;
 
@@ -27,6 +27,10 @@ class Exam::Prepod {
         delete agreePartly;
         delete disagree;
         delete result;
+    }
+
+    void adjust(short increment) {
+        if(state + increment <= 10 && state + increment >= 0) state += increment;
     }
 
     void animateIdle() {
@@ -92,12 +96,13 @@ Exam::Exam(QWidget *parent) :
     ui(new Ui::Exam)
 {
     ui->setupUi(this);
-    Exam::Prepod prepod(ui->prepodPicture);
+    prepod = new Prepod(ui->prepodPicture);
 }
 
 Exam::~Exam()
 {
     delete ui;
+    delete prepod;
 }
 
 
@@ -125,14 +130,6 @@ public:
     }
 };
 
-
-void Exam::checkAnswer() {
-    QLineEdit *lineEdit = qobject_cast<QLineEdit*>(sender());
-       if (lineEdit != nullptr) {
-           // Если ввод закончился то епта ладно
-       }
-}
-
 void Exam::clearHBoxLayout(QHBoxLayout* layout) {
     QLayoutItem *item;
     while ((item = layout->takeAt(0)) != nullptr) {
@@ -141,8 +138,32 @@ void Exam::clearHBoxLayout(QHBoxLayout* layout) {
     }
 }
 
-void Exam::nextQuestion(queue<TestElement>& queue) {
-    TestElement nextQuestion = queue.front();
+void Exam::updateRating() {
+    if(currentQuestionScore < 0) {
+        prepod->animateDisagree();
+    } else if(currentQuestionScore < 0.5) {
+        prepod->animateAgreePartly();
+    } else
+        prepod->animateAgree();
+
+    prepod->adjust(currentQuestionScore);
+}
+
+void Exam::finishExam() {
+    prepod->animateResult();
+    //...
+}
+
+void Exam::nextQuestion()
+{
+    updateRating();
+
+    if(questionsQueue.empty()) {
+        finishExam();
+        return;
+    }
+
+    TestElement nextQuestion = questionsQueue.front();
 
     clearHBoxLayout(ui->answerLayout); // Очистка зоны ответов
 
@@ -152,15 +173,39 @@ void Exam::nextQuestion(queue<TestElement>& queue) {
 
         ui->answerLayout->addWidget(list); // Кидаем его на лейаут
 
-        for(const auto& option : nextQuestion.testQuestion.options) // Заполняем список
-            list->addItem(new CustomListItem(option.first, QPixmap(option.second), list));
+        size_t optionIndex = 0;
+        for(const auto& option : nextQuestion.testQuestion.options) { // Заполняем список
+            CustomListItem *newOption = new CustomListItem(option.first, QPixmap(option.second), list);
+            list->addItem(newOption);
+
+            if(optionIndex == nextQuestion.testQuestion.correctAnswer) {
+                connect(newOption, &QListWidget::itemClicked, [&]()
+                {
+                currentQuestionScore = -0.5;
+                Exam::nextQuestion();
+                }); // Оценка ответа и новый вопрос при нажатии
+            } else {
+                connect(newOption, &QListWidget::itemClicked, [&]()
+                {
+                currentQuestionScore = +0.5;
+                Exam::nextQuestion();
+                }); // Оценка ответа и новый вопрос при нажатии
+            }
+
+            optionIndex++;
+        }
     }
     case Questions::OPEN: { // Если вопрос открытый
         QLineEdit *lineEdit = new QLineEdit;
 
         ui->answerLayout->addWidget(lineEdit); // Создаем строку для ввода
 
-        connect(lineEdit, &QLineEdit::editingFinished, this, &Exam::checkAnswer); // Подключаем слот проверки ответа по окончании ввода
+        connect(lineEdit, &QLineEdit::editingFinished, [&]()
+        {
+            //currentQuestionScore =
+            // Оценка ответа
+            Exam::nextQuestion();
+        });
     }
     }
 }

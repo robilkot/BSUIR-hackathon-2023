@@ -26,15 +26,22 @@ class Exam;
 
 class Exam : public QDialog
 {
-    class Prepod;
     Q_OBJECT
-
 public:
+
+    class Prepod;
+    float currentQuestionScore = 0;
+
+    Prepod* prepod;
+
+    queue<TestElement>& questionsQueue;
 
     explicit Exam(QWidget *parent = nullptr);
     ~Exam();
 
-    void nextQuestion(queue<TestElement>& queue);
+    void finishExam();
+    void updateRating();
+    void nextQuestion();
     void clearHBoxLayout(QHBoxLayout* layout);
 signals:
     void mainWindow();
