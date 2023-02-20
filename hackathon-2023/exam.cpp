@@ -1,15 +1,18 @@
 #include "exam.h"
 #include "ui_exam.h"
 
-class Exam::Prepod {
+class Exam::Prepod
+{
     float state = 5;
-    QLabel* picture; // Указатель на лейбл который представляет пикчу препода
+    QLabel* picture;
+    QProgressBar *satisfaction; // Указатель на лейбл который представляет пикчу препода
     QMovie *idle, *agree, *agreePartly, *disagree, *result;
 
     public:
-    Prepod(QLabel* picture)
+    Prepod(QLabel* picture, QProgressBar* satisfaction)
     {
         this->picture = picture;
+        this->satisfaction = satisfaction;
 
         idle = new QMovie("path/to/animated.gif");
         agree = new QMovie("path/to/animated.gif");
@@ -29,8 +32,11 @@ class Exam::Prepod {
         delete result;
     }
 
-    void adjust(short increment) {
-        if(state + increment <= 10 && state + increment >= 0) state += increment;
+    void adjustSatisfaction(short increment) {
+        if(state + increment <= 10 && state + increment >= 0) {
+            state += increment; // Меняем удовольствие препода
+            satisfaction->setValue(state); // Прогресс бару нужное значение ставим
+        }
     }
 
     void animateIdle() {
@@ -96,7 +102,7 @@ Exam::Exam(QWidget *parent) :
     ui(new Ui::Exam)
 {
     ui->setupUi(this);
-    prepod = new Prepod(ui->prepodPicture);
+    prepod = new Prepod(ui->prepodPicture, ui->prepodSatisfaction);
 }
 
 Exam::~Exam()
@@ -146,7 +152,7 @@ void Exam::updateRating() {
     } else
         prepod->animateAgree();
 
-    prepod->adjust(currentQuestionScore);
+    prepod->adjustSatisfaction(currentQuestionScore);
 }
 
 void Exam::finishExam() {
@@ -163,12 +169,16 @@ void Exam::nextQuestion()
         return;
     }
 
-    TestElement nextQuestion = questionsQueue.front();
+    TestElement nextQuestion = questionsQueue.front(); // Получение из очереди следующего вопроса
 
     clearHBoxLayout(ui->answerLayout); // Очистка зоны ответов
 
     switch(nextQuestion.questions) {
-    case Questions::TEST : { // Если вопрос тестовый
+    case Questions::TEST : // Если вопрос тестовый
+    {
+        ui->questionText->setText(nextQuestion.testQuestion.task.first);
+        ui->questionPhoto->setPixmap(nextQuestion.testQuestion.task.first); // Текст и фото вопроса ставим
+
         QListWidget *list = new QListWidget; // Создаем лист
 
         ui->answerLayout->addWidget(list); // Кидаем его на лейаут
@@ -195,15 +205,22 @@ void Exam::nextQuestion()
             optionIndex++;
         }
     }
-    case Questions::OPEN: { // Если вопрос открытый
+    case Questions::OPEN: // Если вопрос открытый
+    {
         QLineEdit *lineEdit = new QLineEdit;
 
         ui->answerLayout->addWidget(lineEdit); // Создаем строку для ввода
 
         connect(lineEdit, &QLineEdit::editingFinished, [&]()
         {
-            //currentQuestionScore =
-            // Оценка ответа
+            float similarity = 0.5; //compareSimilarity(lineEdit->text(), nextQuestion.openQuestion.correctAnswer);
+
+            if(similarity > 0.85) {
+                currentQuestionScore = 1;
+            } else if(similarity > 0.7) {
+                currentQuestionScore = 0.5;
+            } else currentQuestionScore = -0.5;
+
             Exam::nextQuestion();
         });
     }
