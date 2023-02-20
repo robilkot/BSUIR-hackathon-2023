@@ -33,33 +33,39 @@ class Question
         this->task.first = task;
         this->task.second = photoPath;
     }
+    Question(){}
 };
 
 
-class TestQuestion : Question
+class TestQuestion :public Question
 {
     vector<pair<string, string>> options{ { "Empty answer 1", "" }, { "Empty answer 2", "" } };
     vector<pair<string, string>>::iterator correctAnswer = options.begin();
 
 public:
+    TestQuestion(){}
     TestQuestion(Difficulty difficulty, Subject subject, string task, string photoPath, vector<pair<string, string>> options, vector<pair<string, string>>::iterator correctAnswer): Question(difficulty, subject, task, photoPath) {
         this->options = options;
         this->correctAnswer = correctAnswer;
     }
+
     
     bool isAnswerRight(const vector<pair<string, string>>::iterator& selectedAnswer) {
         return selectedAnswer == correctAnswer;
     }
 };
 
-class OpenQuestion : Question
+class OpenQuestion :public Question
 {
+public:
+    OpenQuestion(){}
     string correctAnswer = "Empty correct answer";
     
     float getAnswerCorrentness(string answer) {
         //return meaningSimilarity(answer, correctAnswer);
         return 0.5;
     }
+
 };
 //
 //
