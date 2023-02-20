@@ -54,12 +54,12 @@ void Editor::updateTable()
         if(!QuestionVector->at(i).type)//если testQuestion
         {
             TestQuestion *q =QuestionVector->at(i).a;
-            temp = new QTableWidgetItem(QString::fromStdString(q->task.first));
+            temp = new QTableWidgetItem(q->task.first);
         }
         else
         {
             OpenQuestion *q = QuestionVector->at(i).b;
-            temp = new QTableWidgetItem(QString::fromStdString(q->task.first));
+            temp = new QTableWidgetItem(q->task.first);
         }
         temp1 = new QTableWidgetItem(QString::fromStdString(to_string(QuestionVector->at(i).type)));
         ui->tableWidget->setItem(i,0,temp);

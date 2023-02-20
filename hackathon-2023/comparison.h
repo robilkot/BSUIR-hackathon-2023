@@ -25,18 +25,3 @@ float meaningSimilarity(std::string sentence1, std::string sentence2)
     // Convert python object to float
     return extract<float>(similarity_obj);
 }
-
-// Example of usage
-// int main()
-// {
-    // Py_Initialize();
-
-    // std::string sentence1 = "The american president",
-                // sentence2 = "The president of the USA";
-    // std::getline(std::cin, sentence1);
-    // std::getline(std::cin, sentence2);
-
-    // std::cout << meaningSimilarity(sentence1, sentence2) << std::endl;
-
-    // Py_Finalize();
-// }

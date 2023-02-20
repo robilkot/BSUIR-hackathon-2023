@@ -125,22 +125,6 @@ public:
     }
 };
 
-class TestQuestion {
-public:
-    QVector<QPair<QString, QString>> options;
-};
-
-class OpenQuestion {
-
-};
-
-class Test {
- public:
-    int type = 0; // Тип вопросв (тестовый, текстовый, ..)
-
-    TestQuestion testQuestion;
-    OpenQuestion openQuestion;
-};
 
 void Exam::checkAnswer() {
     QLineEdit *lineEdit = qobject_cast<QLineEdit*>(sender());
@@ -157,13 +141,13 @@ void Exam::clearHBoxLayout(QHBoxLayout* layout) {
     }
 }
 
-void Exam::nextQuestion(QQueue<Test>& queue) {
-    Test nextQuestion = queue.dequeue();
+void Exam::nextQuestion(queue<TestElement>& queue) {
+    TestElement nextQuestion = queue.front();
 
     clearHBoxLayout(ui->answerLayout); // Очистка зоны ответов
 
-    switch(nextQuestion.type) {
-    case '0' : { // Если вопрос тестовый
+    switch(nextQuestion.questions) {
+    case Questions::TEST : { // Если вопрос тестовый
         QListWidget *list = new QListWidget; // Создаем лист
 
         ui->answerLayout->addWidget(list); // Кидаем его на лейаут
@@ -171,7 +155,7 @@ void Exam::nextQuestion(QQueue<Test>& queue) {
         for(const auto& option : nextQuestion.testQuestion.options) // Заполняем список
             list->addItem(new CustomListItem(option.first, QPixmap(option.second), list));
     }
-    case '1': { // Если вопрос открытый
+    case Questions::OPEN: { // Если вопрос открытый
         QLineEdit *lineEdit = new QLineEdit;
 
         ui->answerLayout->addWidget(lineEdit); // Создаем строку для ввода

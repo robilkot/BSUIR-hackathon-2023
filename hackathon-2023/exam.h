@@ -10,12 +10,14 @@
 #include <QLineEdit>
 #include <QPixmap>
 
-#include <QQueue>
+#include <queue>
 #include <QVector>
 #include <QMovie>
 #include <QTimer>
 
-class Test;
+#include "questions.cpp"
+
+class TestElement;
 
 namespace Ui {
 
@@ -32,7 +34,7 @@ public:
     explicit Exam(QWidget *parent = nullptr);
     ~Exam();
 
-    void nextQuestion(QQueue<Test>& queue);
+    void nextQuestion(queue<TestElement>& queue);
     void clearHBoxLayout(QHBoxLayout* layout);
 signals:
     void mainWindow();

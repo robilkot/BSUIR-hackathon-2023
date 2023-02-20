@@ -1,8 +1,10 @@
 ﻿#include <iostream>
 #include <vector>
 #include <string>
+#include <QString>
 
 #pragma once
+
 //#include "comparison.h"
 
 using namespace std;
@@ -19,15 +21,20 @@ enum class Subject {
     HISTORY
 };
 
+enum class Questions {
+    TEST,
+    OPEN
+};
+
 class Question
 {
     public:
     Difficulty difficulty = Difficulty::MIDDLE;
     Subject subject = Subject::NONSPECIFIED;
 
-    pair<string, string> task{ "Empty question", "" };
+    pair<QString, QString> task{ "Empty question", "" };
 
-    Question(Difficulty difficulty, Subject subject, string task, string photoPath) {
+    Question(Difficulty difficulty, Subject subject, QString task, QString photoPath) {
         this->difficulty = difficulty;
         this->subject = subject;
         this->task.first = task;
@@ -39,18 +46,18 @@ class Question
 
 class TestQuestion :public Question
 {
-    vector<pair<string, string>> options{ { "Empty answer 1", "" }, { "Empty answer 2", "" } };
-    vector<pair<string, string>>::iterator correctAnswer = options.begin();
-
 public:
+    vector<pair<QString, QString>> options{ { "Empty answer 1", "" }, { "Empty answer 2", "" } };
+    size_t correctAnswer = 0;
+
     TestQuestion(){}
-    TestQuestion(Difficulty difficulty, Subject subject, string task, string photoPath, vector<pair<string, string>> options, vector<pair<string, string>>::iterator correctAnswer): Question(difficulty, subject, task, photoPath) {
+    TestQuestion(Difficulty difficulty, Subject subject, QString task, QString photoPath, vector<pair<QString, QString>> options, size_t correctAnswer): Question(difficulty, subject, task, photoPath) {
         this->options = options;
         this->correctAnswer = correctAnswer;
     }
 
     
-    bool isAnswerRight(const vector<pair<string, string>>::iterator& selectedAnswer) {
+    bool isAnswerRight(const size_t& selectedAnswer) {
         return selectedAnswer == correctAnswer;
     }
 };
@@ -67,13 +74,12 @@ public:
     }
 
 };
-//
-//
-//int main() {
-//    vector<pair<string, string>> options = { {"No u", "C:\\photo2.png"} , {"Ur mom", "C:\\photo3.png"} };
-//
-//    TestQuestion que(Difficulty::EASY, Subject::CALCULUS, "Fuck ur mom", "C:\\photo.png", options, options.begin() + 1);
-//
-//    cout << que.isAnswerRight(options.begin());
-//    cout << que.isAnswerRight(options.begin() + 1);
-//}
+
+class TestElement
+{
+public:
+    OpenQuestion openQuestion;
+    TestQuestion testQuestion;
+
+    Questions questions = Questions::TEST;
+};
