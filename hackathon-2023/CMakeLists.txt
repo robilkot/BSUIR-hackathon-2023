@@ -63,6 +63,12 @@ set(PROJECT_SOURCES
         exam.h
         exam.ui
         questions.cpp
+        dynamiclabel.cpp
+        dynamiclabel.h
+        dynamiclineedit.cpp
+        dynamiclineedit.h
+        dynamicradiobutton.cpp
+        dynamicradiobutton.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
