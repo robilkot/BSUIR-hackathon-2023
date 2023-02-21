@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/add.png</file>
+        <file>icons/edit.png</file>
+        <file>icons/equal.png</file>
+        <file>icons/exit.png</file>
+        <file>icons/folder.png</file>
+        <file>icons/picture.png</file>
+        <file>icons/settings.png</file>
+        <file>icons/substract.png</file>
+        <file>exam/bg_green.jpg</file>
+        <file>exam/bg_red.jpg</file>
+        <file>exam/bg_yellow.jpg</file>
+        <file>exam/prepod_agree.gif</file>
+        <file>exam/prepod_agree_partly.gif</file>
+        <file>exam/prepod_disagree.gif</file>
+        <file>exam/prepod_idle.gif</file>
+        <file>exam/prepod_result.gif</file>
+    </qresource>
+</RCC>
