@@ -7,6 +7,27 @@ Exam::Exam(QWidget *parent) :
 {
     ui->setupUi(this);
     prepod = new Prepod(ui->prepodPicture, ui->prepodSatisfaction);
+
+    // Тестовый вопрос
+//    TestQuestion tempq = {
+//        Difficulty::HARD,
+//        Subject::RPIIS,
+//        "Fuck this damn project",
+//        "",
+//        {{"opt1", "path1"}, {"opt2", ""}, {"opt3", ""}},
+//        1
+//    };
+
+//    TestElement temp = {
+//        {},
+//        tempq,
+//        Questions::TEST
+//    };
+
+//    questionsQueue.push(temp);
+//    questionsQueue.push(temp);
+
+    nextQuestion();
 }
 
 Exam::~Exam()
