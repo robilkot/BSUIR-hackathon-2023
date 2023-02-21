@@ -155,11 +155,11 @@ void Editor::on_comboBox_2_activated(int index)
     {
         if(temp.type)
         {
-            temp.b->subject=Subject::CALCULUS;
+            //temp.b->subject=Subject::CALCULUS;
         }
         else
         {
-            temp.a->subject=Subject::CALCULUS;
+            //temp.a->subject=Subject::CALCULUS;
         }
         break;
     }

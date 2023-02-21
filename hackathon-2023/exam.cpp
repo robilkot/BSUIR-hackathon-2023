@@ -3,22 +3,21 @@
 
 class Exam::Prepod
 {
-    float state = 5;
-    QLabel* picture;
-    QProgressBar *satisfaction; // Указатель на лейбл который представляет пикчу препода
-    QMovie *idle, *agree, *agreePartly, *disagree, *result;
+    float state = 5; // Удовлетворенность препода
+    QLabel* picture; // Указатель на лейбл который представляет пикчу препода
+    QProgressBar *satisfaction; // Указатель на прогресс бар который представляет удовлетворенность препода
+
+    QMovie *idle = new QMovie(":/exam/prepod_idle.gif"),
+            *agree = new QMovie(":/exam/prepod_agree.gif"),
+            *agreePartly = new QMovie(":/exam/prepod_agree_partly.gif"),
+            *disagree = new QMovie(":/exam/prepod_disagree.gif"),
+            *result = new QMovie(":/exam/prepod_result.gif");
 
     public:
     Prepod(QLabel* picture, QProgressBar* satisfaction)
     {
         this->picture = picture;
         this->satisfaction = satisfaction;
-
-        idle = new QMovie(":/exam/prepod_idle.gif");
-        agree = new QMovie(":/exam/prepod_agree.gif");
-        agreePartly = new QMovie(":/exam/prepod_agree_partly.gif");
-        disagree = new QMovie(":/exam/prepod_disagree.gif");
-        result = new QMovie(":/exam/prepod_result.gif");
 
         animateIdle();
     }
@@ -61,19 +60,19 @@ class Exam::Prepod
     }
     void animateDisagree() {
         picture->setMovie(disagree);
-        agree->start();
+        disagree->start();
 
         stopAnimation(disagree, 1000);
     }
     void animateAgreePartly() {
         picture->setMovie(agreePartly);
-        agree->start();
+        agreePartly->start();
 
         stopAnimation(agreePartly, 1000);
     }
     void animateResult() {
         picture->setMovie(result);
-        agree->start();
+        result->start();
 
         stopAnimation(result, 1000);
     }
@@ -92,7 +91,6 @@ Exam::~Exam()
     delete ui;
     delete prepod;
 }
-
 
 // Кастомный элемент списка (фото+текст)
 class CustomListItem : public QListWidgetItem
@@ -118,7 +116,8 @@ public:
     }
 };
 
-void Exam::clearHBoxLayout(QHBoxLayout* layout) {
+void Exam::clearHBoxLayout(QHBoxLayout* layout)
+{
     QLayoutItem *item;
     while ((item = layout->takeAt(0)) != nullptr) {
         delete item->widget();
@@ -126,7 +125,8 @@ void Exam::clearHBoxLayout(QHBoxLayout* layout) {
     }
 }
 
-void Exam::updateRating() {
+void Exam::updateRating()
+{
     if(currentQuestionScore < 0) {
         prepod->animateDisagree();
     } else if(currentQuestionScore < 0.5) {
@@ -137,19 +137,10 @@ void Exam::updateRating() {
     prepod->adjustSatisfaction(currentQuestionScore);
 }
 
-void Exam::finishExam() {
+void Exam::finishExam()
+{
     prepod->animateResult();
     //...
-}
-
-void Exam::falseAnswer() {
-    currentQuestionScore = -0.5;
-    nextQuestion();
-}
-
-void Exam::correctAnswer() {
-    currentQuestionScore = +0.5;
-    nextQuestion();
 }
 
 void Exam::nextQuestion()
@@ -178,12 +169,23 @@ void Exam::nextQuestion()
         size_t optionIndex = 0;
         for(const auto& option : nextQuestion.testQuestion.options) { // Заполняем список
             CustomListItem *newOption = new CustomListItem(option.first, QPixmap(option.second), list);
+
             list->addItem(newOption);
 
             if(optionIndex == nextQuestion.testQuestion.correctAnswer) {
-                connect(newOption, &QListWidget::itemClicked, &Exam::correctAnswer);
+                connect(list, &QListWidget::itemChanged, [=]() {
+                    if(list->selectedItems().front() == newOption) { // Тут обязательно контекст по значению т.к. newOption меняется
+                    currentQuestionScore = +0.5;
+                    Exam::nextQuestion();
+                    }
+                });
             } else {
-                connect(newOption, &QListWidget::itemClicked, &Exam::falseAnswer);
+                connect(list, &QListWidget::itemChanged, [=]() {
+                    if(list->selectedItems().front() == newOption) {
+                    currentQuestionScore = -0.5;
+                    Exam::nextQuestion();
+                    }
+                });
             }
         }
 
@@ -197,7 +199,7 @@ void Exam::nextQuestion()
 
         connect(lineEdit, &QLineEdit::editingFinished, [&]()
         {
-            float similarity = 0.5; //compareSimilarity(lineEdit->text(), nextQuestion.openQuestion.correctAnswer);
+            float similarity = 0.5; //= nextQuestion.openQuestion.getAnswerCorrentness(lineEdit->text());
 
             if(similarity > 0.85) {
                 currentQuestionScore = 1;

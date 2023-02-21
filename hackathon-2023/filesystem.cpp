@@ -160,7 +160,7 @@ void save(vector<TestElement>& test, QString path)
                 j++;
             }
             }
-            else st << '**\n' << currentQuestion.openQuestion.correctAnswer << '\n';
+            else st << "**\n" << currentQuestion.openQuestion.correctAnswer << '\n';
 
         }
         file.close();

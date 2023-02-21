@@ -52,13 +52,14 @@ public:
     size_t correctAnswer = 0;
 
     TestQuestion(){}
-    TestQuestion(Difficulty difficulty, Subject subject, QString task, QString photoPath, vector<pair<QString, QString>> options, size_t correctAnswer): Question(difficulty, subject, task, photoPath) {
+    TestQuestion(Difficulty difficulty, Subject subject, QString task, QString photoPath, vector<pair<QString, QString>> options, size_t correctAnswer)
+        : Question(difficulty, subject, task, photoPath) {
         this->options = options;
         this->correctAnswer = correctAnswer;
     }
 
     
-    bool isAnswerRight(const size_t& selectedAnswer) {
+    bool isAnswerRight(const size_t selectedAnswer) {
         return selectedAnswer == correctAnswer;
     }
 };
@@ -67,9 +68,14 @@ class OpenQuestion : public Question
 {
 public:
     OpenQuestion(){}
+    OpenQuestion(Difficulty difficulty, Subject subject, QString task, QString photoPath, QString correctAnswer)
+    : Question(difficulty, subject, task, photoPath) {
+        this->correctAnswer = correctAnswer;
+    }
+
     QString correctAnswer = "Empty correct answer";
     
-    float getAnswerCorrentness(string answer) {
+    float getAnswerCorrentness(QString answer) {
         //return meaningSimilarity(answer, correctAnswer);
         return 0.5;
     }
