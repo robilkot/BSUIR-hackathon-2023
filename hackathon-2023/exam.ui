@@ -16,7 +16,7 @@
   <property name="windowTitle">
    <string>Exam</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" columnstretch="2,0">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="3,1">
    <property name="horizontalSpacing">
     <number>6</number>
    </property>
@@ -111,20 +111,23 @@
     </layout>
    </item>
    <item row="0" column="0">
-    <layout class="QVBoxLayout" name="testLayout">
+    <layout class="QVBoxLayout" name="testLayout" stretch="1,1">
      <item>
       <layout class="QHBoxLayout" name="questionLayout">
        <item>
         <widget class="QLabel" name="questionText">
          <property name="text">
-          <string>text</string>
+          <string>Empty question</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLabel" name="questionPhoto">
          <property name="text">
-          <string>photo</string>
+          <string>Empty question photo</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>

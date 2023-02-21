@@ -16,6 +16,7 @@
 #include <QTimer>
 
 #include "questions.cpp"
+#include "prepod.cpp"
 
 class TestElement;
 
@@ -28,11 +29,9 @@ class Exam : public QDialog
 {
     Q_OBJECT
 public:
-
-    class Prepod;
-    float currentQuestionScore = 0;
-
     Prepod* prepod;
+
+    float currentQuestionScore = 0;
 
     queue<TestElement> questionsQueue;
 
@@ -43,9 +42,6 @@ public:
     void updateRating();
     void nextQuestion();
     void clearHBoxLayout(QHBoxLayout* layout);
-
-    void falseAnswer();
-    void correctAnswer();
 
 signals:
     void mainWindow();

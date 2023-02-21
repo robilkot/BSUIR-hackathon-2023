@@ -3,6 +3,9 @@
 
 #include <QDialog>
 #include "questions.cpp"
+#include <vector>
+#include <queue>
+
 namespace Ui {
 class Choice;
 }
@@ -14,6 +17,9 @@ class Choice : public QDialog//окно выбора сложности
 public:
     explicit Choice(QWidget *parent = nullptr);
     ~Choice();
+
+    queue<TestElement> buildQueue(vector<TestElement>& questions, Difficulty difficulty, Subject subject);
+
 signals:
     void mainWindow();
     void examWindow();

@@ -16,7 +16,7 @@
 
 using namespace std;
 
-void read(vector<TestElement>& test, QString path) {
+void readQuestions(vector<TestElement>& test, QString path) {
 
     bool correct = false,
         only_pic = false,
@@ -132,7 +132,7 @@ void read(vector<TestElement>& test, QString path) {
 
 
 
-void save(vector<TestElement>& test, QString path)
+void saveQuestions(vector<TestElement>& test, QString path)
 {
     QFile file(path);
     QTextStream st(&file);
