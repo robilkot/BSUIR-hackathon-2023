@@ -17,7 +17,8 @@ enum class Difficulty {
 
 enum class Subject {
     NONSPECIFIED,
-    CALCULUS,
+    RPIIS,
+    MATH,
     HISTORY
 };
 
@@ -66,7 +67,7 @@ class OpenQuestion : public Question
 {
 public:
     OpenQuestion(){}
-    string correctAnswer = "Empty correct answer";
+    QString correctAnswer = "Empty correct answer";
     
     float getAnswerCorrentness(string answer) {
         //return meaningSimilarity(answer, correctAnswer);

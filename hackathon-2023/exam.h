@@ -34,7 +34,7 @@ public:
 
     Prepod* prepod;
 
-    queue<TestElement>& questionsQueue;
+    queue<TestElement> questionsQueue;
 
     explicit Exam(QWidget *parent = nullptr);
     ~Exam();
@@ -43,11 +43,14 @@ public:
     void updateRating();
     void nextQuestion();
     void clearHBoxLayout(QHBoxLayout* layout);
+
+    void falseAnswer();
+    void correctAnswer();
+
 signals:
     void mainWindow();
 private slots:
     void on_exitButton_clicked();
-    void checkAnswer();
 
 private:
     Ui::Exam *ui;

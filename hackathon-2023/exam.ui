@@ -40,7 +40,10 @@
        <item>
         <widget class="QLabel" name="prepodPicture">
          <property name="text">
-          <string>TextLabel</string>
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="images/images.qrc">:/exam/prepod_idle.gif</pixmap>
          </property>
         </widget>
        </item>
@@ -134,6 +137,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="images/images.qrc"/>
+ </resources>
  <connections/>
 </ui>

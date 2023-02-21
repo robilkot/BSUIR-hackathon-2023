@@ -14,11 +14,11 @@ class Exam::Prepod
         this->picture = picture;
         this->satisfaction = satisfaction;
 
-        idle = new QMovie("path/to/animated.gif");
-        agree = new QMovie("path/to/animated.gif");
-        agreePartly = new QMovie("path/to/animated.gif");
-        disagree = new QMovie("path/to/animated.gif");
-        result = new QMovie("path/to/animated.gif");
+        idle = new QMovie(":/exam/prepod_idle.gif");
+        agree = new QMovie(":/exam/prepod_agree.gif");
+        agreePartly = new QMovie(":/exam/prepod_agree_partly.gif");
+        disagree = new QMovie(":/exam/prepod_disagree.gif");
+        result = new QMovie(":/exam/prepod_result.gif");
 
         animateIdle();
     }
@@ -30,6 +30,16 @@ class Exam::Prepod
         delete agreePartly;
         delete disagree;
         delete result;
+    }
+
+    void stopAnimation(QMovie* picture, int delay) { // Stop given animation after given delay
+        QTimer *timer = new QTimer();
+        connect(timer, &QTimer::timeout, [&]() {
+            picture->stop();
+            animateIdle();
+            delete timer;
+        } );
+        timer->start(delay);
     }
 
     void adjustSatisfaction(short increment) {
@@ -45,55 +55,27 @@ class Exam::Prepod
     }
     void animateAgree() {
         picture->setMovie(agree);
-
-        QTimer *timer = new QTimer();
-        connect(timer, &QTimer::timeout, [=]() {
-            agree->stop();
-            animateIdle();
-            delete timer;
-        } );
-        timer->start(1000);
-
         agree->start();
+
+        stopAnimation(agree, 1000);
     }
     void animateDisagree() {
         picture->setMovie(disagree);
+        agree->start();
 
-        QTimer *timer = new QTimer();
-        connect(timer, &QTimer::timeout, [=]() {
-            disagree->stop();
-            animateIdle();
-            delete timer;
-        } );
-        timer->start(1000);
-
-        disagree->start();
+        stopAnimation(disagree, 1000);
     }
     void animateAgreePartly() {
         picture->setMovie(agreePartly);
+        agree->start();
 
-        QTimer *timer = new QTimer();
-        connect(timer, &QTimer::timeout, [=]() {
-            agreePartly->stop();
-            animateIdle();
-            delete timer;
-        } );
-        timer->start(1000);
-
-        agreePartly->start();
+        stopAnimation(agreePartly, 1000);
     }
     void animateResult() {
         picture->setMovie(result);
+        agree->start();
 
-        QTimer *timer = new QTimer();
-        connect(timer, &QTimer::timeout, [=]() {
-            result->stop();
-            animateIdle();
-            delete timer;
-        } );
-        timer->start(1000);
-
-        result->start();
+        stopAnimation(result, 1000);
     }
 };
 
@@ -160,6 +142,16 @@ void Exam::finishExam() {
     //...
 }
 
+void Exam::falseAnswer() {
+    currentQuestionScore = -0.5;
+    nextQuestion();
+}
+
+void Exam::correctAnswer() {
+    currentQuestionScore = +0.5;
+    nextQuestion();
+}
+
 void Exam::nextQuestion()
 {
     updateRating();
@@ -189,21 +181,13 @@ void Exam::nextQuestion()
             list->addItem(newOption);
 
             if(optionIndex == nextQuestion.testQuestion.correctAnswer) {
-                connect(newOption, &QListWidget::itemClicked, [&]()
-                {
-                currentQuestionScore = -0.5;
-                Exam::nextQuestion();
-                }); // Оценка ответа и новый вопрос при нажатии
+                connect(newOption, &QListWidget::itemClicked, &Exam::correctAnswer);
             } else {
-                connect(newOption, &QListWidget::itemClicked, [&]()
-                {
-                currentQuestionScore = +0.5;
-                Exam::nextQuestion();
-                }); // Оценка ответа и новый вопрос при нажатии
+                connect(newOption, &QListWidget::itemClicked, &Exam::falseAnswer);
             }
-
-            optionIndex++;
         }
+
+        optionIndex++;
     }
     case Questions::OPEN: // Если вопрос открытый
     {
