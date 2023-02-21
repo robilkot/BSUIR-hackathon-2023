@@ -38,7 +38,7 @@ class Prepod
 
     void stopAnimation(QMovie* picture, int delay) { // Stop given animation after given delay
         QTimer *timer = new QTimer();
-        QObject::connect(timer, &QTimer::timeout, [&]() {
+        QObject::connect(timer, &QTimer::timeout, [=]() {
             picture->stop();
             animateIdle();
             delete timer;

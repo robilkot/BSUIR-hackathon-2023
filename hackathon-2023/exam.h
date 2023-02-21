@@ -15,6 +15,8 @@
 #include <QMovie>
 #include <QTimer>
 
+#include <QDebug>
+
 #include "questions.cpp"
 #include "prepod.cpp"
 

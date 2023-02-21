@@ -9,25 +9,51 @@ Exam::Exam(QWidget *parent) :
     prepod = new Prepod(ui->prepodPicture, ui->prepodSatisfaction);
 
     // Тестовый вопрос
-//    TestQuestion tempq = {
-//        Difficulty::HARD,
-//        Subject::RPIIS,
-//        "Fuck this damn project",
-//        "",
-//        {{"opt1", "path1"}, {"opt2", ""}, {"opt3", ""}},
-//        1
-//    };
+    TestQuestion tempq = {
+        Difficulty::HARD,
+        Subject::RPIIS,
+        "Fuck this damn project",
+        "",
+        {{"opt1", "path1"}, {"opt2", ""}, {"opt3", ""}},
+        1
+    };
 
-//    TestElement temp = {
-//        {},
-//        tempq,
-//        Questions::TEST
-//    };
+    OpenQuestion tempq2 = {
+        Difficulty::HARD,
+        Subject::RPIIS,
+        "Fuck this damn project",
+        "",
+        "Correct answer is so"
+    };
 
-//    questionsQueue.push(temp);
-//    questionsQueue.push(temp);
+    TestQuestion tempq3 = {
+        Difficulty::HARD,
+        Subject::RPIIS,
+        "Fuck this damn projec 2 2 2 t",
+        "",
+        {{"opt11", "path1"}, {"opt22", ""}, {"opt33", ""}},
+        0
+    };
 
-    nextQuestion();
+
+    TestElement temp = {
+        {},
+        tempq,
+        Questions::TEST
+    }, temp2 = {
+        tempq2,
+        {},
+        Questions::OPEN
+    }, temp3 = {
+        {},
+        tempq3,
+        Questions::TEST
+    };
+
+   questionsQueue.push(temp);
+   questionsQueue.push(temp3);
+
+   nextQuestion();
 }
 
 Exam::~Exam()
@@ -85,6 +111,7 @@ void Exam::finishExam()
 {
     prepod->animateResult();
     //...
+    qDebug() << "Exam finished!\n";
 }
 
 void Exam::nextQuestion()
@@ -97,6 +124,7 @@ void Exam::nextQuestion()
     }
 
     TestElement nextQuestion = questionsQueue.front(); // Получение из очереди следующего вопроса
+    questionsQueue.pop();
 
     clearHBoxLayout(ui->answerLayout); // Очистка зоны ответов
 
@@ -116,24 +144,35 @@ void Exam::nextQuestion()
 
             list->addItem(newOption);
 
+             qDebug() << "add option\n";
+
             if(optionIndex == nextQuestion.testQuestion.correctAnswer) {
-                connect(list, &QListWidget::itemChanged, this, [=]() {
-                    if(list->selectedItems().front() == newOption) { // Тут обязательно контекст по значению т.к. newOption меняется
+                connect(list, &QListWidget::itemClicked, this, [=]() { // Тут обязательно контекст по значению т.к. newOption меняется. Иначе сегфаулт будет
+                    QListWidgetItem* currentItem = list->currentItem();
+                    if(currentItem == newOption)
+                    {
                     currentQuestionScore = +0.5;
                     Exam::nextQuestion();
                     }
                 });
+
+                 qDebug() << "Set labmde true\n";
             } else {
-                connect(list, &QListWidget::itemChanged, this, [=]() {
-                    if(list->selectedItems().front() == newOption) {
+                connect(list, &QListWidget::itemClicked, this, [=]() {
+                    QListWidgetItem* currentItem = list->currentItem();
+                    if(currentItem == newOption)
+                    {
                     currentQuestionScore = -0.5;
                     Exam::nextQuestion();
                     }
                 });
-            }
-        }
 
-        optionIndex++;
+                qDebug() << "Set labmde false\n";
+            }
+
+            optionIndex++;
+        }
+        break;
     }
     case Questions::OPEN: // Если вопрос открытый
     {
@@ -141,7 +180,9 @@ void Exam::nextQuestion()
 
         ui->answerLayout->addWidget(lineEdit); // Создаем строку для ввода
 
-        connect(lineEdit, &QLineEdit::editingFinished, this, [&]()
+        qDebug() << "add lineedit\n";
+
+        connect(lineEdit, &QLineEdit::returnPressed, this, [=]() // ACHTUNG Тут сегфаулт!
         {
             float similarity = 0.5; //= nextQuestion.openQuestion.getAnswerCorrentness(lineEdit->text());
 
@@ -155,6 +196,8 @@ void Exam::nextQuestion()
         });
     }
     }
+
+    qDebug() << "Finished forming question!\n";
 }
 
 void Exam::on_exitButton_clicked()
