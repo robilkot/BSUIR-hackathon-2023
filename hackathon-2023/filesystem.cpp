@@ -15,17 +15,18 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
 
         QFile file(path);
         static QRegularExpression check_1("([(]{1}[1-3]{1}[)]{1})");
-        static QRegularExpression check_2("([a-zA-Z[:space:]]+[:]{1}[/\\]{1})");
+
 
         if (file.open(QIODevice::ReadOnly |QIODevice::Text))
         {
             QString temp, buf;
+            QChar c;
             unsigned short j = -1, i = -1;
             QTextStream s(&file);
             while (!s.atEnd())
             {
                 temp = s.readLine();
-               // qDebug()<<temp;
+                c=temp[0];
 
                 if (temp == "HISTORY" || temp == "MATH" || temp == "RPIIS" ) {
 
@@ -58,7 +59,7 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
 
                 }
 
-                else if (check_2.match(temp).hasMatch()) {
+                else if (!c.isDigit()) {
 
                     if (photo == false && buf.isEmpty()) {
                         buf = temp;
