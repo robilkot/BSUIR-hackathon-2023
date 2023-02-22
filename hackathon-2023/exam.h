@@ -33,9 +33,11 @@ class Exam : public QDialog
 public:
     Prepod* prepod;
 
-    float currentQuestionScore = 0;
+    signed short currentQuestionScore = 0;
 
     queue<TestElement> questionsQueue;
+    size_t questionsNumber = 10,
+           currentQuestionNumber = 1;
 
     explicit Exam(QWidget *parent = nullptr);
     ~Exam();
@@ -49,6 +51,8 @@ signals:
     void mainWindow();
 private slots:
     void on_exitButton_clicked();
+
+    void on_nextButton_clicked();
 
 private:
     Ui::Exam *ui;

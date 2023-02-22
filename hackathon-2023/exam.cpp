@@ -51,7 +51,18 @@ Exam::Exam(QWidget *parent) :
     };
 
    questionsQueue.push(temp);
+   questionsQueue.push(temp2);
    questionsQueue.push(temp3);
+
+   questionsQueue.push(temp);
+   questionsQueue.push(temp2);
+   questionsQueue.push(temp3);
+
+   questionsQueue.push(temp);
+   questionsQueue.push(temp2);
+   questionsQueue.push(temp3);
+
+   questionsNumber = questionsQueue.size();
 
    nextQuestion();
 }
@@ -99,7 +110,7 @@ void Exam::updateRating()
 {
     if(currentQuestionScore < 0) {
         prepod->animateDisagree();
-    } else if(currentQuestionScore < 0.5) {
+    } else if(currentQuestionScore < 10) {
         prepod->animateAgreePartly();
     } else
         prepod->animateAgree();
@@ -118,60 +129,49 @@ void Exam::nextQuestion()
 {
     updateRating();
 
+    QString prepodMessage = "Question " + QString::number(currentQuestionNumber) + '/' +  QString::number(questionsNumber);
+    ui->prepodMessage->setText(prepodMessage);
+
     if(questionsQueue.empty()) {
         finishExam();
         return;
     }
 
-    TestElement nextQuestion = questionsQueue.front(); // Получение из очереди следующего вопроса
+    TestElement newQuestion = questionsQueue.front(); // Получение из очереди следующего вопроса
     questionsQueue.pop();
 
     clearHBoxLayout(ui->answerLayout); // Очистка зоны ответов
 
-    switch(nextQuestion.questions) {
+    currentQuestionScore = 0;
+
+    switch(newQuestion.questions) {
     case Questions::TEST : // Если вопрос тестовый
     {
-        ui->questionText->setText(nextQuestion.testQuestion.task.first);
-        ui->questionPhoto->setPixmap(nextQuestion.testQuestion.task.first); // Текст и фото вопроса ставим
+        ui->questionText->setText(newQuestion.testQuestion.task.first);
+        ui->questionPhoto->setPixmap(newQuestion.testQuestion.task.first); // Текст и фото вопроса ставим
 
         QListWidget *list = new QListWidget; // Создаем лист
 
         ui->answerLayout->addWidget(list); // Кидаем его на лейаут
 
-        size_t optionIndex = 0;
-        for(const auto& option : nextQuestion.testQuestion.options) { // Заполняем список
+        for(const auto& option : newQuestion.testQuestion.options) { // Заполняем список
             CustomListItem *newOption = new CustomListItem(option.first, QPixmap(option.second), list);
-
             list->addItem(newOption);
-
-             qDebug() << "add option\n";
-
-            if(optionIndex == nextQuestion.testQuestion.correctAnswer) {
-                connect(list, &QListWidget::itemClicked, this, [=]() { // Тут обязательно контекст по значению т.к. newOption меняется. Иначе сегфаулт будет
-                    QListWidgetItem* currentItem = list->currentItem();
-                    if(currentItem == newOption)
-                    {
-                    currentQuestionScore = +0.5;
-                    Exam::nextQuestion();
-                    }
-                });
-
-                 qDebug() << "Set labmde true\n";
-            } else {
-                connect(list, &QListWidget::itemClicked, this, [=]() {
-                    QListWidgetItem* currentItem = list->currentItem();
-                    if(currentItem == newOption)
-                    {
-                    currentQuestionScore = -0.5;
-                    Exam::nextQuestion();
-                    }
-                });
-
-                qDebug() << "Set labmde false\n";
-            }
-
-            optionIndex++;
         }
+
+        connect(list, &QListWidget::itemClicked, this, [=]()
+        {
+            if(!list->selectedItems().isEmpty()) {
+                int selectedIndex = list->row(list->selectedItems().front());
+
+                if(newQuestion.testQuestion.correctAnswer == selectedIndex) {
+                    currentQuestionScore = 10;
+                } else {
+                    currentQuestionScore = -10;
+                }
+            }
+        });
+
         break;
     }
     case Questions::OPEN: // Если вопрос открытый
@@ -180,29 +180,30 @@ void Exam::nextQuestion()
 
         ui->answerLayout->addWidget(lineEdit); // Создаем строку для ввода
 
-        qDebug() << "add lineedit\n";
-
         connect(lineEdit, &QLineEdit::returnPressed, this, [=]() // ACHTUNG Тут сегфаулт!
         {
             float similarity = 0.5; //= nextQuestion.openQuestion.getAnswerCorrentness(lineEdit->text());
 
             if(similarity > 0.85) {
-                currentQuestionScore = 1;
+                currentQuestionScore = 15;
             } else if(similarity > 0.7) {
-                currentQuestionScore = 0.5;
-            } else currentQuestionScore = -0.5;
-
-            Exam::nextQuestion();
+                currentQuestionScore = 10;
+            } else currentQuestionScore = -10;
         });
     }
+        break;
     }
-
-    qDebug() << "Finished forming question!\n";
 }
 
 void Exam::on_exitButton_clicked()
 {
     this->close();      // Закрываем окно
     emit mainWindow();  //сигнал на открытие главного окна
+}
+
+void Exam::on_nextButton_clicked()
+{
+    currentQuestionNumber++;
+    nextQuestion();
 }
 

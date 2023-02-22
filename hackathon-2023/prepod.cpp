@@ -8,7 +8,7 @@
 
 class Prepod
 {
-    float state = 5; // Удовлетворенность препода
+    unsigned short state = 50; // Удовлетворенность препода
     QLabel* picture; // Указатель на лейбл который представляет пикчу препода
     QProgressBar *satisfaction; // Указатель на прогресс бар который представляет удовлетворенность препода
 
@@ -24,6 +24,7 @@ class Prepod
         this->picture = picture;
         this->satisfaction = satisfaction;
 
+        adjustSatisfaction(0);
         animateIdle();
     }
 
@@ -46,11 +47,12 @@ class Prepod
         timer->start(delay);
     }
 
-    void adjustSatisfaction(short increment) {
-        if(state + increment <= 10 && state + increment >= 0) {
-            state += increment; // Меняем удовольствие препода
-            satisfaction->setValue(state); // Прогресс бару нужное значение ставим
+    void adjustSatisfaction(signed short increment) {
+        signed short target = state + increment;
+        if(target <= 100 && target >= 0) {
+            state = target; // Меняем удовольствие препода
         }
+        satisfaction->setValue(state); // Прогресс бару нужное значение ставим
     }
 
     void animateIdle() {
