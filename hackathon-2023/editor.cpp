@@ -54,9 +54,12 @@ void Editor::on_exitButton_clicked()
 
 void Editor::on_addQButton_clicked()
 {
+
     questionStruct *a= new questionStruct();
     QuestionVector->push_back(*a);
     Q_EMIT on_comboBox_activated(0);
+    emit on_middleBox_clicked();
+    //ui->middleBox->setChecked(1);
     questionStruct &temp =QuestionVector->back();
 
     int count = ui->verticalLayout_4->count();
@@ -82,6 +85,7 @@ void Editor::on_deleteQButon_clicked()
             {
                 Q_EMIT on_deleteAns_clicked();
             }
+            //emit findDifficult();
         }
     }
     Q_EMIT deleteQ();
@@ -89,7 +93,9 @@ void Editor::on_deleteQButon_clicked()
 
 void Editor::updateTable()
 {
-    ui->tableWidget->setRowCount(QuestionVector->size());
+    if(!QuestionVector->empty())
+    {
+        ui->tableWidget->setRowCount(QuestionVector->size());
     for(int i=0;i<QuestionVector->size();i++)
     {
         QTableWidgetItem* temp;
@@ -108,13 +114,12 @@ void Editor::updateTable()
         ui->tableWidget->setItem(i,0,temp);
          ui->tableWidget->setItem(i,1,temp1);
     }
+    }
 }
 
 void Editor::on_addAns_clicked()
 {   if(!QuestionVector->empty()&& ui->verticalLayout_3->count()<6){
         questionStruct &temp =QuestionVector->back();
-        emit findDifficult();
-
     DynamicLabel *label = new DynamicLabel(this);
     label->setText("Answer"+QString::number(label->getID()));
     ui->verticalLayout_4->addWidget(label);
@@ -135,9 +140,6 @@ void Editor::on_addAns_clicked()
    connect(lineEdit,&DynamicLineEdit::textEdited,this,&Editor::editOfDynamicEditText);
    connect(radioButton,&DynamicRadioButton::clicked,[&]()
    {
-//       questionStruct &temp =QuestionVector->back();
-//       int count =ui->verticalLayout_3->count();
-//       temp.a->correctAnswer = count;
          questionStruct &temp =QuestionVector->back();
          for(int i=1;i<ui->verticalLayout_2->count();++i)
          {
@@ -200,11 +202,10 @@ void Editor::on_deleteAns_clicked()
     radioButton->hide();
     delete radioButton;
     }
-
-    questionStruct &temp =QuestionVector->back();
-    temp.a->options.pop_back();
-    emit findDifficult();
+//    questionStruct &temp =QuestionVector->back();
+//    temp.a->options.pop_back();
     }
+
 }
 void Editor::slotGetNumber()
 {
@@ -289,55 +290,6 @@ void Editor::on_comboBox_activated(int index)
     }
 }
 
-
-void Editor::on_hardRadioButton_clicked(bool checked)
-{
-    if(!QuestionVector->empty()){
-    questionStruct &temp =QuestionVector->back();
-    if(!temp.type)
-    {
-        temp.b->difficulty = Difficulty::HARD;
-    }
-    else
-    {
-        temp.a->difficulty = Difficulty::HARD;
-    }
-    }
-}
-
-
-void Editor::on_normRadioButton_clicked(bool checked)
-{
-    if(!QuestionVector->empty()){
-    questionStruct &temp =QuestionVector->back();
-    if(!temp.type)
-    {
-        temp.b->difficulty = Difficulty::MIDDLE;
-    }
-    else
-    {
-        temp.a->difficulty = Difficulty::MIDDLE;
-    }
-    }
-}
-
-
-void Editor::on_easyRadioButton_clicked(bool checked)
-{
-    if(!QuestionVector->empty()){
-    questionStruct &temp =QuestionVector->back();
-    if(!temp.type)
-        {
-        temp.b->difficulty = Difficulty::EASY;
-        }
-    else
-        {
-        temp.a->difficulty = Difficulty::EASY;
-        }
-    }
-}
-
-
 void Editor::on_textEdit_textChanged()
 {
     if(!QuestionVector->empty()){
@@ -392,23 +344,67 @@ void Editor::on_saveButton_clicked()
     system->saveQuestions(test,"D:/save.txt");
 }
 
+
+void Editor::on_easyBox_clicked()
+{
+//    if(!QuestionVector->empty())
+//    {
+//    questionStruct &temp =QuestionVector->back();
+//        temp.b->difficulty = Difficulty::EASY;
+//        temp.a->difficulty = Difficulty::EASY;
+//    }
+//    ui->hardBox->setChecked(0);
+//    ui->middleBox->setChecked(0);
+}
+
+
+void Editor::on_middleBox_clicked()
+{
+//    if(!QuestionVector->empty()){
+//    questionStruct &temp =QuestionVector->back();
+//        temp.b->difficulty = Difficulty::MIDDLE;
+//        temp.a->difficulty = Difficulty::MIDDLE;
+//    }
+//    ui->easyBox->setChecked(0);
+//    ui->hardBox->setChecked(0);
+}
+
+
+void Editor::on_hardBox_clicked()
+{
+//    if(!QuestionVector->empty())
+//    {
+//    questionStruct &temp =QuestionVector->back();
+//        temp.b->difficulty = Difficulty::HARD;
+//        temp.a->difficulty = Difficulty::HARD;
+//    }
+//    ui->easyBox->setChecked(0);
+//    ui->middleBox->setChecked(0);
+}
 void Editor::findDifficult()
 {
-    questionStruct &temp =QuestionVector->back();
-            switch (temp.a->difficulty) {
-        case Difficulty::EASY:
-            ui->easyRadioButton->setChecked(true);
-            emit on_easyRadioButton_clicked(1);
-            break;
-        case Difficulty::MIDDLE:
-            ui->normRadioButton->toggled(true);
-            emit on_normRadioButton_clicked(1);
-            break;
-        case Difficulty::HARD:
-            ui->hardRadioButton->toggle();
-            emit on_hardRadioButton_clicked(1);
-            break;
-        default:
-            break;
-    }
+//    if(!QuestionVector->empty())
+//    {
+//    questionStruct &temp =QuestionVector->back();
+
+//    switch (temp.a->difficulty) {
+//    case Difficulty::EASY:
+//    {
+//        emit on_easyBox_clicked();
+//        break;
+//    }
+//    case Difficulty::MIDDLE:
+//    {
+//        emit on_middleBox_clicked();
+//        break;
+//    }
+//    case Difficulty::HARD:
+//    {
+//        emit on_hardBox_clicked();
+//        break;
+//    }
+//    default:
+//        break;
+//    }
+//    }
 }

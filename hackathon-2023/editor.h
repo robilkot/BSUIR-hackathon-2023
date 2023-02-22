@@ -41,12 +41,6 @@ private Q_SLOTS:
 
     void on_comboBox_activated(int index);
 
-    void on_hardRadioButton_clicked(bool checked);
-
-    void on_normRadioButton_clicked(bool checked);
-
-    void on_easyRadioButton_clicked(bool checked);
-
     void on_textEdit_textChanged();
 
     void editOfDynamicEditText();
@@ -54,6 +48,12 @@ private Q_SLOTS:
     void on_textEdit_2_textChanged();
 
     void on_saveButton_clicked();
+
+    void on_easyBox_clicked();
+
+    void on_middleBox_clicked();
+
+    void on_hardBox_clicked();
 
 private:
     Ui::Editor *ui;
