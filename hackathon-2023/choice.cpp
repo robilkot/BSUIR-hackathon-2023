@@ -41,7 +41,7 @@ void Choice::on_pushButton_5_clicked()
     // Тестовый вопрос
     TestQuestion tempq = {
         Difficulty::EASY,
-        Subject::RPIIS,
+        Subject::NONSPECIFIED,
         "Fuck this damn project",
         "",
         {{"opt1", "path1"}, {"opt2", ""}, {"opt3", ""}},
@@ -50,7 +50,7 @@ void Choice::on_pushButton_5_clicked()
 
     OpenQuestion tempq2 = {
         Difficulty::MIDDLE,
-        Subject::RPIIS,
+        Subject::NONSPECIFIED,
         "Fuck this damn project 2",
         "",
         "Correct answer is so"
@@ -58,7 +58,7 @@ void Choice::on_pushButton_5_clicked()
 
     TestQuestion tempq3 = {
         Difficulty::HARD,
-        Subject::RPIIS,
+        Subject::NONSPECIFIED,
         "Fuck this damn projec 3 ",
         "",
         {{"opt11", "path1"}, {"opt22", ""}, {"opt33", ""}},
@@ -80,6 +80,14 @@ void Choice::on_pushButton_5_clicked()
     };
 
     vector<TestElement> questions;
+    questions.push_back(temp);
+    questions.push_back(temp2);
+    questions.push_back(temp3);
+
+    questions.push_back(temp);
+    questions.push_back(temp2);
+    questions.push_back(temp3);
+
     questions.push_back(temp);
     questions.push_back(temp2);
     questions.push_back(temp3);

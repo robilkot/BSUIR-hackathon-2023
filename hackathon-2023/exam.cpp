@@ -1,8 +1,7 @@
 #include "exam.h"
-#include "mainwindow.h"
 #include "ui_exam.h"
 
-void Exam::setQuestionsQueue(const queue<TestElement> &newQuestionsQueue)
+void Exam::setQuestionsQueue(const queue<TestElement>& newQuestionsQueue) // Setter
 {
     questionsQueue = newQuestionsQueue;
 }
@@ -12,19 +11,12 @@ Exam::Exam(QWidget *parent) :
     ui(new Ui::Exam)
 {
     ui->setupUi(this);
-    prepod = new Prepod(ui->prepodPicture, ui->prepodSatisfaction, ui->prepodMessage);
 }
 
 Exam::~Exam()
 {
     delete ui;
     delete prepod;
-}
-
-void Exam::startExam() { //queue<TestElement> queue) {
-    //this->questionsQueue = queue;
-    questionsNumber = questionsQueue.size();
-    nextQuestion();
 }
 
 // Кастомный элемент списка (фото+текст)
@@ -60,8 +52,20 @@ void Exam::clearHBoxLayout(QHBoxLayout* layout)
     }
 }
 
+void Exam::startExam() {
+    prepod = new Prepod(ui->prepodPicture, ui->prepodSatisfaction, ui->prepodMessage);
+
+    currentQuestionScore = 0;
+    ui->nextButton->setEnabled(true);
+    currentQuestionNumber = 0; // С 0 а не 1 т.к. вызывается следующий вопрос, включая инкремент
+    questionsNumber = questionsQueue.size();
+    nextQuestion();
+}
+
 void Exam::updateRating()
 {
+    if(currentQuestionScore == 0) return; // Первый вопрос, когда баллов еще нету
+
     if(currentQuestionScore < 0) {
         prepod->animateDisagree();
     } else if(currentQuestionScore < 10) {
@@ -84,20 +88,21 @@ void Exam::nextQuestion()
 {
     updateRating();
 
-    QString prepodMessage = "Question " + QString::number(currentQuestionNumber) + '/' +  QString::number(questionsNumber);
-    ui->questionNumber->setText(prepodMessage);
-
     if(questionsQueue.empty()) {
         finishExam();
         return;
     }
+
+    currentQuestionNumber++;
+    QString prepodMessage = "Question " + QString::number(currentQuestionNumber) + '/' +  QString::number(questionsNumber);
+    ui->questionNumber->setText(prepodMessage);
 
     TestElement newQuestion = questionsQueue.front(); // Получение из очереди следующего вопроса
     questionsQueue.pop();
 
     clearHBoxLayout(ui->answerLayout); // Очистка зоны ответов
 
-    currentQuestionScore = 0;
+    currentQuestionScore = -10; // По дефолту значение -10, для ситуации с невыбранным вариантом ответа
 
     switch(newQuestion.questions) {
     case Questions::TEST : // Если вопрос тестовый
@@ -135,7 +140,7 @@ void Exam::nextQuestion()
 
         ui->answerLayout->addWidget(lineEdit); // Создаем строку для ввода
 
-        connect(lineEdit, &QLineEdit::returnPressed, this, [=]() // ACHTUNG Тут сегфаулт!
+        connect(lineEdit, &QLineEdit::returnPressed, this, [=]()
         {
             float similarity = 0.5; //= nextQuestion.openQuestion.getAnswerCorrentness(lineEdit->text());
 
@@ -158,7 +163,6 @@ void Exam::on_exitButton_clicked()
 
 void Exam::on_nextButton_clicked()
 {
-    currentQuestionNumber++;
     nextQuestion();
 }
 

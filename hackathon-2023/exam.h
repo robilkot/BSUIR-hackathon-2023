@@ -31,13 +31,13 @@ class Exam : public QDialog
 {
     Q_OBJECT
 public:
-    Prepod* prepod;
+    Prepod* prepod = nullptr;
 
     signed short currentQuestionScore = 0;
 
     queue<TestElement> questionsQueue;
     size_t questionsNumber = 10,
-           currentQuestionNumber = 1;
+           currentQuestionNumber = 0;
 
     explicit Exam(QWidget *parent = nullptr);
     ~Exam();

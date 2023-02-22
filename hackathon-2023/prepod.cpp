@@ -11,7 +11,7 @@ class Prepod
     unsigned short state = 50; // Удовлетворенность препода
     QLabel* picture; // Указатель на лейбл который представляет пикчу препода
     QProgressBar *satisfaction; // Указатель на прогресс бар который представляет удовлетворенность препода
-    QLabel* message;
+    QLabel* message; // Указатель на лейбл с сообщением от препода
 
     QMovie *idle = new QMovie(":/exam/prepod_idle.gif"),
             *agree = new QMovie(":/exam/prepod_agree.gif"),
@@ -51,10 +51,12 @@ class Prepod
 
     void adjustSatisfaction(signed short increment) {
         signed short target = state + increment;
-        if(target <= 100 && target >= 0) {
+        if(target <= 100 && target >= 0)
             state = target; // Меняем удовольствие препода
-        }
+
         satisfaction->setValue(state); // Прогресс бару нужное значение ставим
+
+        if(state <= 20) message->setText("Seems like it'll be a retake...");
     }
 
     void animateIdle() {
@@ -65,7 +67,7 @@ class Prepod
     void animateAgree() {
         picture->setMovie(agree);
         agree->start();
-        message->setText("Okay, your answer seems correct. Now to the next question.");
+        message->setText("Your answer seems correct. Next question.");
 
         stopAnimation(agree, message, 3000);
     }
@@ -86,13 +88,14 @@ class Prepod
     void animateResult() {
         picture->setMovie(result);
         result->start();
-        message->setText("That was it. Now let's take a look at your results.");
 
         QTimer *timer = new QTimer();
         QObject::connect(timer, &QTimer::timeout, [=]() {
             result->stop();
             delete timer;
         } );
-        timer->start(1000);
+        timer->start(3000);
+
+        message->setText("That's it. Now let's take a look at your results.");
     }
 };

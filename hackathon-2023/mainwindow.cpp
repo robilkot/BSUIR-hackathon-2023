@@ -39,20 +39,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    choiceWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
+    //choiceWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
     choiceWindow->show();  // Показываем окно выбора сложности
     this->close();           // Закрываю главное окно
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    editorWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
+    //editorWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
     editorWindow->show();  // Показываем окно редактора
     this->close();         // Закрываю главное окно
 }
 void MainWindow::on_pushButton_3_clicked()
 {
-    settingsWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
+    //settingsWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
     settingsWindow->show();  // Показываем окно настроек
     this->close();           // Закрываю главное окно
 }
@@ -64,14 +64,15 @@ void MainWindow::on_pushButton_4_clicked()
 
 void MainWindow::openExamWindow()
 {
-    examWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
+    //examWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
     examWindow->show();  // Показываем окно экзамена
     this->close();           // Закрываю главное окно
 }
 
 void MainWindow::updateQueue()
 {
-    examWindow->setQuestionsQueue(choiceWindow->getTest());
+    const queue<TestElement>& test =  choiceWindow->getTest();
+    examWindow->setQuestionsQueue(test);
 }
 
 
