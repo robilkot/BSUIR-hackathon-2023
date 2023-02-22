@@ -7,9 +7,18 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->examButton->setIcon(QIcon(":/icons/checked.png"));
+    ui->exitButton->setIcon(QIcon(":/icons/exit.png"));
+    ui->editorButton->setIcon(QIcon(":/icons/edit.png"));
+    ui->settingsButton->setIcon(QIcon(":/icons/settings.png"));
+
+    ui->logo->setPixmap(QPixmap(":/icons/books.png"));
+
+    this->setFixedSize(QSize(400, 400));
+
     choiceWindow = new Choice();
     //соединяю слот открытия главного окна с кнопкой в окне выбора сложности
-   connect(choiceWindow,&Choice::mainWindow,this,&MainWindow::show);
+     connect(choiceWindow,&Choice::mainWindow,this,&MainWindow::show);
 
     settingsWindow= new Settings();
      //соединяю слот открытия главного окна с кнопкой в окне редактора
@@ -29,7 +38,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(choiceWindow, &Choice::examWindow, examWindow, &Exam::startExam);
     //передаю из choice в exam объект test
     connect(choiceWindow,&Choice::updateQueue,this,&MainWindow::updateQueue);
-
 }
 
 MainWindow::~MainWindow()
@@ -37,27 +45,27 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_examButton_clicked()
 {
     //choiceWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
     choiceWindow->show();  // Показываем окно выбора сложности
     this->close();           // Закрываю главное окно
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_editorButton_clicked()
 {
     //editorWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
     editorWindow->show();  // Показываем окно редактора
     this->close();         // Закрываю главное окно
 }
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_settingsButton_clicked()
 {
     //settingsWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
     settingsWindow->show();  // Показываем окно настроек
     this->close();           // Закрываю главное окно
 }
 
-void MainWindow::on_pushButton_4_clicked()
+void MainWindow::on_exitButton_clicked()
 {
      QCoreApplication::quit();
 }

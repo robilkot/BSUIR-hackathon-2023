@@ -20,13 +20,13 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_examButton_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_exitButton_clicked();
 
-    void on_pushButton_3_clicked();
+    void on_settingsButton_clicked();
 
-    void on_pushButton_4_clicked();
+    void on_editorButton_clicked();
 
     void openExamWindow();
 

@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
+		<file>icons/books.png</file>
+		<file>icons/checked.png</file>
         <file>icons/add.png</file>
         <file>icons/edit.png</file>
         <file>icons/equal.png</file>

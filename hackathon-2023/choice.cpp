@@ -7,6 +7,9 @@ Choice::Choice(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->menuButton->setIcon(QIcon(":/icons/exit.png"));
+    ui->examButton->setIcon(QIcon(":/icons/checked.png"));
+
     connect(ui->comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
         [=](int index){
             setSubject(index);
@@ -23,13 +26,13 @@ void Choice::setSubject(int index)
     this->selectedSubject = (Subject)index;
 }
 
-void Choice::on_pushButton_clicked()
+void Choice::on_menuButton_clicked()
 {
     this->close();      // Закрываем окно
     emit mainWindow();  //сигнал на открытие главного окна
 }
 
-void Choice::on_pushButton_5_clicked()
+void Choice::on_examButton_clicked()
 {
     this->close();      // Закрываем окно
 

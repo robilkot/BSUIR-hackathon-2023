@@ -26,6 +26,8 @@ class Prepod
         this->satisfaction = satisfaction;
         this->message = message;
 
+        this->satisfaction->setStyleSheet("QProgressBar::chunk { background-color: #ffd91e; } QProgressBar { text-align: center; border: 1px solid grey;}");
+
         adjustSatisfaction(0);
         animateIdle();
     }
@@ -56,7 +58,14 @@ class Prepod
 
         satisfaction->setValue(state); // Прогресс бару нужное значение ставим
 
-        if(state <= 20) message->setText("Seems like it'll be a retake...");
+        if(state <= 20)  {
+            message->setText("Seems like it'll be a retake...");
+            satisfaction->setStyleSheet("QProgressBar::chunk { background-color: #b20000; }");
+        } else if(state <= 60) {
+            satisfaction->setStyleSheet("QProgressBar::chunk { background-color: #ffd91e; }");
+        } else {
+            satisfaction->setStyleSheet("QProgressBar::chunk { background-color: #6a8a4e; }");
+        }
     }
 
     void animateIdle() {
@@ -94,7 +103,7 @@ class Prepod
             result->stop();
             delete timer;
         } );
-        timer->start(3000);
+        timer->start(2000);
 
         message->setText("That's it. Now let's take a look at your results.");
     }

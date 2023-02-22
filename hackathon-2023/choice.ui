@@ -105,7 +105,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_5">
+      <widget class="QPushButton" name="examButton">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -118,7 +118,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="menuButton">
        <property name="text">
         <string>Menu</string>
        </property>

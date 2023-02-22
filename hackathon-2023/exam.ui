@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>658</width>
+    <width>699</width>
     <height>432</height>
    </rect>
   </property>
@@ -58,6 +58,9 @@
          <property name="value">
           <number>50</number>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
          <property name="textVisible">
           <bool>true</bool>
          </property>
@@ -65,7 +68,7 @@
           <bool>false</bool>
          </property>
          <property name="format">
-          <string/>
+          <string>Satisfaction</string>
          </property>
         </widget>
        </item>
@@ -116,12 +119,18 @@
            <property name="text">
             <string>Next question</string>
            </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="exitButton">
            <property name="text">
             <string>Exit</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -132,7 +141,7 @@
     </layout>
    </item>
    <item row="0" column="0">
-    <layout class="QVBoxLayout" name="testLayout" stretch="1,1">
+    <layout class="QVBoxLayout" name="testLayout" stretch="2,3">
      <item>
       <layout class="QHBoxLayout" name="questionLayout">
        <item>

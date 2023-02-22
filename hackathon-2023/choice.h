@@ -34,9 +34,9 @@ signals:
     void examWindow();
     void updateQueue();
 private slots:
-    void on_pushButton_clicked();
+    void on_menuButton_clicked();
 
-    void on_pushButton_5_clicked();
+    void on_examButton_clicked();
 
     void on_comboBox_currentIndexChanged(int index);
 

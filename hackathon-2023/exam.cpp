@@ -12,6 +12,9 @@ Exam::Exam(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->nextButton->setEnabled(false);
+
+    ui->exitButton->setIcon(QIcon(":/icons/exit.png"));
+    ui->nextButton->setIcon(QIcon(":/icons/checked.png"));
 }
 
 Exam::~Exam()
