@@ -10,6 +10,8 @@ Choice::Choice(QWidget *parent) :
     ui->menuButton->setIcon(QIcon(":/icons/exit.png"));
     ui->examButton->setIcon(QIcon(":/icons/checked.png"));
 
+    this->setFixedSize(QSize(400, 400));
+
     connect(ui->comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
         [=](int index){
             setSubject(index);
@@ -175,3 +177,12 @@ void Choice::on_easyCheck_stateChanged(int arg1)
     easySelected = !easySelected;
 }
 
+vector<TestElement> Choice::getQuestions() const
+{
+    return questions;
+}
+
+void Choice::setQuestions(const vector<TestElement> &newQuestions)
+{
+    questions = newQuestions;
+}

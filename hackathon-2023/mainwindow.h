@@ -19,6 +19,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+   void read(QString path);
+
+   vector<TestElement> test;
 private slots:
     void on_examButton_clicked();
 

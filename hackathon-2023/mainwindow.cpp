@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <QScreen>
+#include "questions.cpp"
+#include "filesystem.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -15,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->logo->setPixmap(QPixmap(":/icons/books.png"));
 
     this->setFixedSize(QSize(400, 400));
+
+    read(":/input.txt");
 
     choiceWindow = new Choice();
     //соединяю слот открытия главного окна с кнопкой в окне выбора сложности
@@ -45,9 +49,17 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::read(QString path)
+{
+    FileSystem *system = new FileSystem();
+    system->readQuestions(test,path);
+}
+
 void MainWindow::on_examButton_clicked()
 {
     //choiceWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
+    choiceWindow->setQuestions(test);
     choiceWindow->show();  // Показываем окно выбора сложности
     this->close();           // Закрываю главное окно
 }

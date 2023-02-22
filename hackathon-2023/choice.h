@@ -28,13 +28,15 @@ public:
     queue<TestElement> test;
     queue<TestElement> getTest() const;
 
+    vector<TestElement> getQuestions() const;
+    void setQuestions(const vector<TestElement> &newQuestions);
 signals:
 
     void mainWindow();
     void examWindow();
     void updateQueue();
 private slots:
-    void on_menuButton_clicked();
+    void on_exitButton_clicked();
 
     void on_examButton_clicked();
 
@@ -47,6 +49,8 @@ private slots:
     void on_easyCheck_stateChanged(int arg1);
 
 private:
+    vector<TestElement> questions; // из mainwindow
+
     Ui::Choice *ui;
 };
 
