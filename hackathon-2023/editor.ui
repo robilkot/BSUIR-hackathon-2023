@@ -19,7 +19,7 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Тип вопроса</string>
+        <string>Question type</string>
        </property>
       </widget>
      </item>
@@ -29,7 +29,7 @@
      <item>
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Предмет</string>
+        <string>Subject</string>
        </property>
       </widget>
      </item>
@@ -39,7 +39,7 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Текст вопроса</string>
+        <string>Task</string>
        </property>
       </widget>
      </item>
@@ -57,7 +57,7 @@
           </size>
          </property>
          <property name="title">
-          <string>Сложность вопроса</string>
+          <string>Difficulty</string>
          </property>
          <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
@@ -72,21 +72,21 @@
            <item>
             <widget class="QRadioButton" name="easyRadioButton">
              <property name="text">
-              <string>EASY</string>
+              <string>Easy</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QRadioButton" name="normRadioButton">
              <property name="text">
-              <string>NORM</string>
+              <string>Middle</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QRadioButton" name="hardRadioButton">
              <property name="text">
-              <string>HARD</string>
+              <string>Hard</string>
              </property>
             </widget>
            </item>
@@ -101,12 +101,19 @@
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Вопросы</string>
+      <string>Questions</string>
      </property>
     </widget>
    </item>
    <item row="2" column="2" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Options</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -125,14 +132,14 @@
        <item>
         <widget class="QPushButton" name="addAns">
          <property name="text">
-          <string>+</string>
+          <string>Add</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="deleteAns">
          <property name="text">
-          <string>-</string>
+          <string>Delete</string>
          </property>
         </widget>
        </item>
@@ -143,7 +150,7 @@
    <item row="6" column="2" colspan="2">
     <widget class="QPushButton" name="exitButton">
      <property name="text">
-      <string>назад</string>
+      <string>Menu</string>
      </property>
     </widget>
    </item>
@@ -177,7 +184,7 @@
    <item row="5" column="2" colspan="2">
     <widget class="QPushButton" name="saveButton">
      <property name="text">
-      <string>Сохранить</string>
+      <string>Save</string>
      </property>
     </widget>
    </item>
@@ -192,7 +199,7 @@
         </size>
        </property>
        <property name="text">
-        <string>+</string>
+        <string>Add</string>
        </property>
       </widget>
      </item>
@@ -205,7 +212,7 @@
         </size>
        </property>
        <property name="text">
-        <string>-</string>
+        <string>Delete</string>
        </property>
       </widget>
      </item>

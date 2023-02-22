@@ -27,6 +27,15 @@ Editor::Editor(QWidget *parent) :
     ui->tableWidget->setColumnCount(2);
     ui->textEdit_2->hide();
 
+    ui->addQButton->setIcon(QIcon(":/icons/add.png"));
+    ui->deleteQButon->setIcon(QIcon(":/icons/substract.png"));
+
+    ui->addAns->setIcon(QIcon(":/icons/add.png"));
+    ui->deleteAns->setIcon(QIcon(":/icons/substract.png"));
+
+    ui->saveButton->setIcon(QIcon(":/icons/notebook.png"));
+    ui->exitButton->setIcon(QIcon(":/icons/exit.png"));
+
     connect(this,&Editor::addQ,this,&Editor::updateTable);//подключил расширение таблицы к нажатию кнопки добавления эл-та
     connect(this,&Editor::deleteQ,this,&Editor::updateTable);//подключил уменьшение таблицы к нажатию кнопки удаления эл-та
     connect(this,&Editor::typeChange,this,&Editor::updateTable);//подключил переключение типа к обновлению таблицы
@@ -106,11 +115,11 @@ void Editor::on_addAns_clicked()
         questionStruct &temp =QuestionVector->back();
         qDebug()<< temp.a->correctAnswer;
     DynamicLabel *label = new DynamicLabel(this);
-    label->setText("Ответ "+QString::number(label->getID()));
+    label->setText("Answer"+QString::number(label->getID()));
     ui->verticalLayout_4->addWidget(label);
 
    DynamicLineEdit *lineEdit = new DynamicLineEdit(this);
-   lineEdit->setText("Ответ");
+   lineEdit->setText("Answer");
    ui->verticalLayout_3->addWidget(lineEdit);
    lineEdit->show();
 

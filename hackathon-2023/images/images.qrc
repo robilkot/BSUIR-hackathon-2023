@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+		<file>icons/notebook.png</file>
 		<file>icons/books.png</file>
 		<file>icons/checked.png</file>
         <file>icons/add.png</file>
