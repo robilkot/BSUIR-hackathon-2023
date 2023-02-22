@@ -71,8 +71,7 @@ void MainWindow::openExamWindow()
 
 void MainWindow::updateQueue()
 {
-    const queue<TestElement>& test =  choiceWindow->getTest();
-    examWindow->setQuestionsQueue(test);
+    examWindow->setQuestionsQueue(choiceWindow->getTest());
 }
 
 
