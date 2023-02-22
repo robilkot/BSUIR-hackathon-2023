@@ -36,10 +36,17 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
                     i++, j = -1;
                     test.resize(i + 1);
 
-                    if (temp == "HISTORY") test[i].testQuestion.subject = Subject::HISTORY;
-                    else if (temp == "RPIIS") test[i].testQuestion.subject = Subject::RPIIS;
-                    else if (temp == "MATH") test[i].testQuestion.subject = Subject::MATH;
-
+                    if (temp == "HISTORY") {
+                        test[i].testQuestion.subject = Subject::HISTORY;
+                        test[i].openQuestion.subject = Subject::HISTORY;
+                    } else if (temp == "RPIIS") {
+                        test[i].testQuestion.subject = Subject::RPIIS;
+                        test[i].openQuestion.subject = Subject::RPIIS;
+                    }
+                    else if (temp == "MATH") {
+                        test[i].testQuestion.subject = Subject::MATH;
+                        test[i].openQuestion.subject = Subject::MATH;
+                    }
                 }
                 else if (check_1.match(temp).hasMatch()) {
                     if (need == true) {
@@ -51,12 +58,18 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
                         test.resize(i + 1);
                     }
                     temp=s.readLine();
-                    if (check_1.match(temp).captured() == "(1)")test[i].testQuestion.difficulty = Difficulty::EASY;
-                    else if (check_1.match(temp).captured() == "(2)")test[i].testQuestion.difficulty = Difficulty::MIDDLE;
-                    else if (check_1.match(temp).captured() == "(3)") test[i].testQuestion.difficulty = Difficulty::HARD;
-
+                    if (check_1.match(temp).captured() == "(1)") {
+                        test[i].testQuestion.difficulty = Difficulty::EASY;
+                        test[i].openQuestion.difficulty = Difficulty::EASY;
+                    } else if (check_1.match(temp).captured() == "(2)") {
+                        test[i].testQuestion.difficulty = Difficulty::MIDDLE;
+                        test[i].openQuestion.difficulty = Difficulty::MIDDLE;
+                    } else if (check_1.match(temp).captured() == "(3)") {
+                        test[i].testQuestion.difficulty = Difficulty::HARD;
+                        test[i].openQuestion.difficulty = Difficulty::HARD;
+                    }
                     test[i].testQuestion.task.first = temp;
-
+                    test[i].openQuestion.task.first = temp;
                 }
 
                 else if (!c.isDigit() && c!='*') {
@@ -89,10 +102,9 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
                 }
                 else if (temp == "*") correct = true;
                     else if(temp=="**") {
-
+                        test[i].questions = Questions::OPEN;
                         temp=s.readLine();
-                        test[i].openQuestion.correctAnswer=temp;
-
+                        test[i].openQuestion.correctAnswer = temp;
 
                         need=true;
                     }
@@ -105,6 +117,7 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
                 {
                     if (photo == true) {
                         test[i].testQuestion.task.second = buf;
+                        test[i].openQuestion.task.second = buf;
                         photo = false;
                     }
 
@@ -114,7 +127,7 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
                     test[i].testQuestion.options[j].first = temp;
 
                     if (correct == true) {
-                        test[i].testQuestion.correctAnswer =j;
+                        test[i].testQuestion.correctAnswer = j;
                         correct = false;
                     }
                 }

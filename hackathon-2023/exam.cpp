@@ -141,9 +141,7 @@ void Exam::nextQuestion()
     currentQuestionScore = -10; // По дефолту значение -10, для ситуации с невыбранным вариантом ответа
 
     switch(newQuestion.questions) {
-    //switch(newQuestion.openQuestion.correctAnswer.isEmpty()) {
     case Questions::TEST : // Если вопрос тестовый
-    //case true :
     {
         ui->questionText->setText(newQuestion.testQuestion.task.first);
 
@@ -160,7 +158,7 @@ void Exam::nextQuestion()
         ui->answerLayout->addWidget(list); // Кидаем его на лейаут
 
         for(const auto& option : newQuestion.testQuestion.options) { // Заполняем список
-            //qDebug() << option.second << "\n";
+            qDebug() << option.second << "\n";
             CustomListItem *newOption = new CustomListItem(option.first, QPixmap(option.second), list);
             list->addItem(newOption);
         }
@@ -181,9 +179,11 @@ void Exam::nextQuestion()
         break;
     }
     case Questions::OPEN: // Если вопрос открытый
-    //case false :
     {
         ui->questionText->setText(newQuestion.openQuestion.task.first);
+
+        qDebug() << newQuestion.openQuestion.task.second << " QUESTION PHOTO\n";
+        qDebug() << newQuestion.openQuestion.correctAnswer << " QUESTION ANS\n";
 
         QPixmap* pixmap = new QPixmap(newQuestion.openQuestion.task.second);
         if(!pixmap->isNull()) {
@@ -199,6 +199,8 @@ void Exam::nextQuestion()
         connect(lineEdit, &QLineEdit::returnPressed, this, [=]()
         {
             float similarity = lineEdit->text() == newQuestion.openQuestion.correctAnswer; //= nextQuestion.openQuestion.getAnswerCorrentness(lineEdit->text());
+
+            qDebug() << newQuestion.openQuestion.correctAnswer << " YOUR ANS\n";
 
             if(similarity > 0.85) {
                 currentQuestionScore = 15;
