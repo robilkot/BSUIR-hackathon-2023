@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->setFixedSize(QSize(400, 400));
 
-    read("E:\\work\\hackathon-2023\\hackathon-2023\\input.txt");
+    read("D:/BSUIR-hackathon-2023-main/hackathon-2023");
 
     choiceWindow = new Choice();
     //соединяю слот открытия главного окна с кнопкой в окне выбора сложности
@@ -54,6 +54,7 @@ void MainWindow::read(QString path)
 {
     FileSystem *system = new FileSystem();
     system->readQuestions(test,path);
+    qDebug()<< test.size();
 }
 
 void MainWindow::on_examButton_clicked()
@@ -67,6 +68,7 @@ void MainWindow::on_examButton_clicked()
 void MainWindow::on_editorButton_clicked()
 {
     //editorWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
+    editorWindow->setTest(test);
     editorWindow->show();  // Показываем окно редактора
     this->close();         // Закрываю главное окно
 }

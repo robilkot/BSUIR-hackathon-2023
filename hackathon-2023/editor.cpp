@@ -381,6 +381,16 @@ void Editor::on_hardBox_clicked()
     ui->easyBox->setChecked(0);
     ui->middleBox->setChecked(0);
 }
+
+vector<TestElement> Editor::getTest() const
+{
+    return test;
+}
+
+void Editor::setTest(const vector<TestElement> &newTest)
+{
+    test = newTest;
+}
 void Editor::findDifficult()
 {
     if(!QuestionVector->empty())
@@ -407,4 +417,25 @@ void Editor::findDifficult()
         break;
     }
     }
+}
+
+void Editor::editorStart(){
+    for(int i=0;i<test.size();++i)
+    {
+        TestElement &temp = test.at(i);
+        questionStruct a;
+        *a.a=temp.testQuestion;
+        *a.b= temp.openQuestion;
+        if(temp.questions==Questions::OPEN)
+        {
+            a.type=0;
+        }
+        else
+        {
+             a.type=1;
+        }
+
+        QuestionVector->push_back(a);
+    }
+
 }
