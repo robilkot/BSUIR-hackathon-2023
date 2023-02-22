@@ -5,7 +5,6 @@
 #include "questions.cpp"
 #include <QVector>
 
-
 namespace Ui {
 class Editor;
 }
@@ -53,6 +52,8 @@ private Q_SLOTS:
     void editOfDynamicEditText();
 
     void on_textEdit_2_textChanged();
+
+    void on_saveButton_clicked();
 
 private:
     Ui::Editor *ui;

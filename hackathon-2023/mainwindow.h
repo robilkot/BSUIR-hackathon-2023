@@ -18,7 +18,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+   void read(QString path);
+   vector<TestElement> test;
 private slots:
     void on_pushButton_clicked();
 
