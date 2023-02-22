@@ -11,6 +11,7 @@ Exam::Exam(QWidget *parent) :
     ui(new Ui::Exam)
 {
     ui->setupUi(this);
+    ui->nextButton->setEnabled(false);
 }
 
 Exam::~Exam()
@@ -55,11 +56,17 @@ void Exam::clearHBoxLayout(QHBoxLayout* layout)
 void Exam::startExam() {
     prepod = new Prepod(ui->prepodPicture, ui->prepodSatisfaction, ui->prepodMessage);
 
-    currentQuestionScore = 0;
     ui->nextButton->setEnabled(true);
+
+    currentQuestionScore = 0;
     currentQuestionNumber = 0; // С 0 а не 1 т.к. вызывается следующий вопрос, включая инкремент
+
     questionsNumber = questionsQueue.size();
-    nextQuestion();
+
+    if(questionsNumber != 0)
+        nextQuestion();
+    else
+        ui->prepodMessage->setText("I have no questions for you...");
 }
 
 void Exam::updateRating()
@@ -108,7 +115,7 @@ void Exam::nextQuestion()
     case Questions::TEST : // Если вопрос тестовый
     {
         ui->questionText->setText(newQuestion.testQuestion.task.first);
-        ui->questionPhoto->setPixmap(newQuestion.testQuestion.task.first); // Текст и фото вопроса ставим
+        ui->questionPhoto->setPixmap(newQuestion.testQuestion.task.second); // Текст и фото вопроса ставим
 
         QListWidget *list = new QListWidget; // Создаем лист
 
@@ -136,6 +143,9 @@ void Exam::nextQuestion()
     }
     case Questions::OPEN: // Если вопрос открытый
     {
+        ui->questionText->setText(newQuestion.openQuestion.task.first);
+        ui->questionPhoto->setPixmap(newQuestion.openQuestion.task.second); // Текст и фото вопроса ставим
+
         QLineEdit *lineEdit = new QLineEdit;
 
         ui->answerLayout->addWidget(lineEdit); // Создаем строку для ввода
@@ -150,8 +160,8 @@ void Exam::nextQuestion()
                 currentQuestionScore = 10;
             } else currentQuestionScore = -10;
         });
-    }
         break;
+    }
     }
 }
 

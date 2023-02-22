@@ -18,11 +18,6 @@ Choice::~Choice()
     delete ui;
 }
 
-void Choice::setDifficulty(int index)
-{
-    this->selectedDifficulty = (Difficulty)index;
-}
-
 void Choice::setSubject(int index)
 {
     this->selectedSubject = (Subject)index;
@@ -38,7 +33,6 @@ void Choice::on_pushButton_5_clicked()
 {
     this->close();      // Закрываем окно
 
-    // Тестовый вопрос
     TestQuestion tempq = {
         Difficulty::EASY,
         Subject::NONSPECIFIED,
@@ -92,15 +86,15 @@ void Choice::on_pushButton_5_clicked()
     questions.push_back(temp2);
     questions.push_back(temp3);
 
-    test = buildQueue(questions, selectedDifficulty, selectedSubject);
+    test = buildQueue(questions);
 
     // Передать test в поле questionsQueue экзамена
     emit updateQueue();
     emit examWindow();  //сигнал на открытие окна экзамена
 }
 
-
-queue<TestElement> Choice::buildQueue(vector<TestElement>& questions, Difficulty selectedDifficulty, Subject selectedSubject)
+// Формирование очереди вопросов из общего списка по заданным условиям
+queue<TestElement> Choice::buildQueue(vector<TestElement>& questions)
 {
     queue<TestElement> queue;
 
@@ -109,19 +103,42 @@ queue<TestElement> Choice::buildQueue(vector<TestElement>& questions, Difficulty
         if(queue.size() >= 10) break; // Если накопилось 10 вопросов в очереди, то дальше не ищем
 
         bool isQuestionSuitable = 0; // Проверяем подходит ли вопрос из списка под наше условие
+        Difficulty questionDifficulty;
 
         switch(testElement.questions) {
         case Questions::TEST :
         {
-            isQuestionSuitable = testElement.testQuestion.difficulty == selectedDifficulty && testElement.testQuestion.subject == selectedSubject;
+            isQuestionSuitable = testElement.testQuestion.subject == selectedSubject;
+            questionDifficulty = testElement.testQuestion.difficulty;
             break;
         }
         case Questions::OPEN :
         {
-            isQuestionSuitable = testElement.openQuestion.difficulty == selectedDifficulty && testElement.openQuestion.subject == selectedSubject;
+            isQuestionSuitable = testElement.openQuestion.subject == selectedSubject;
+            questionDifficulty = testElement.openQuestion.difficulty;
             break;
         }
         }
+
+        if(!isQuestionSuitable) continue; // Если вопрос по предмету не подошел, сразу мимо
+        isQuestionSuitable = false;
+
+        switch(questionDifficulty)
+        {
+        case Difficulty::EASY : {
+                isQuestionSuitable = easySelected;
+                break;
+        }
+        case Difficulty::MIDDLE : {
+                isQuestionSuitable = middleSelected;
+                break;
+        }
+        case Difficulty::HARD: {
+                isQuestionSuitable = hardSelected;
+                break;
+        }
+        }
+
         if(isQuestionSuitable) queue.push(testElement); // Пушим вопрос в очередь если подходит
     }
 
@@ -133,23 +150,25 @@ queue<TestElement> Choice::getTest() const
     return test;
 }
 
-void Choice::on_pushButton_3_clicked()
-{
-    setDifficulty(0);
-}
-
-void Choice::on_pushButton_2_clicked()
-{
-    setDifficulty(1);
-}
-
-void Choice::on_pushButton_4_clicked()
-{
-    setDifficulty(2);
-}
-
 void Choice::on_comboBox_currentIndexChanged(int index)
 {
     setSubject(index);
+}
+
+void Choice::on_middleCheck_stateChanged(int arg1)
+{
+    middleSelected = !middleSelected;
+}
+
+
+void Choice::on_hardCheck_stateChanged(int arg1)
+{
+    hardSelected = !hardSelected;
+}
+
+
+void Choice::on_easyCheck_stateChanged(int arg1)
+{
+    easySelected = !easySelected;
 }
 

@@ -19,13 +19,12 @@ public:
     ~Choice();
 
 
-    Difficulty selectedDifficulty = Difficulty::MIDDLE;
+    bool easySelected = 0, middleSelected = 1, hardSelected = 0;
     Subject selectedSubject = Subject::NONSPECIFIED;
 
-    void setDifficulty(int index);
     void setSubject(int index);
 
-    queue<TestElement> buildQueue(vector<TestElement>& questions, Difficulty difficulty, Subject subject);
+    queue<TestElement> buildQueue(vector<TestElement>& questions);
     queue<TestElement> test;
     queue<TestElement> getTest() const;
 
@@ -39,13 +38,13 @@ private slots:
 
     void on_pushButton_5_clicked();
 
-    void on_pushButton_3_clicked();
-
-    void on_pushButton_2_clicked();
-
-    void on_pushButton_4_clicked();
-
     void on_comboBox_currentIndexChanged(int index);
+
+    void on_middleCheck_stateChanged(int arg1);
+
+    void on_hardCheck_stateChanged(int arg1);
+
+    void on_easyCheck_stateChanged(int arg1);
 
 private:
     Ui::Choice *ui;

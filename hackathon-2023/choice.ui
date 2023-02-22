@@ -31,22 +31,22 @@
     <widget class="QComboBox" name="comboBox">
      <item>
       <property name="text">
+       <string>Not specified</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>RPIIS</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>MATH</string>
+       <string>Math</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>HISTORY</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>NONSPECIFIED</string>
+       <string>History</string>
       </property>
      </item>
     </widget>
@@ -66,21 +66,24 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QCheckBox" name="easyCheck">
          <property name="text">
           <string>Easy</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QCheckBox" name="middleCheck">
          <property name="text">
           <string>Middle</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QCheckBox" name="hardCheck">
          <property name="text">
           <string>Hard</string>
          </property>
