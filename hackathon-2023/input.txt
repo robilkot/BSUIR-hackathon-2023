@@ -1,6 +1,5 @@
 HISTORY
-
-1. (1) Даты издания статутов ВКЛ. 
+1. (1) Dates of issue of statutes ON.
 *
 1) 1529, 1566, 1588
 
@@ -10,20 +9,20 @@ HISTORY
 
 4) 1549, 1569, 1587
 
-2. (3) Кто изображён на данной картинке?
+2. (3) Who is in this picture?
 
 c:\...
 
-1) Рогволод
+1) Rogvolod
 
 *
-2) Лев Сапега
+2) Lev Sapieha
 
-3) Изяслав
+3) Izyaslav
 
-4) Брячеслав
+4) Bryacheslav
 
-3. (1) Брестская церковная уния была заключена в 
+3. (1) The Brest Church Union was concluded in
 
 1) 1566
 
@@ -34,18 +33,18 @@ c:\...
 
 4) 1589
 
-4. (3) Как называлось право, означающее полномочие лица или группы лиц в одностороннем порядке заблокировать принятие того или иного решения.
+4. (3) What was the name of the right, meaning the authority of a person or group of persons to unilaterally block the adoption of a decision?
 
 *
-1) Вето
+1) Veto
 
-2) Блокировка
+2) Blocking
 
-3) Вече
+3) Veche
 
-4) Уния
+4) Union
 
-5. (3) На какой картинке изображён Игнат Домейко
+5. (3) Which picture does show Ignat Domeiko?
 
 c:\\\\
 
@@ -56,7 +55,7 @@ c:\\\
 
 c:\\\
 
-6. (2) Даты трёх распадов Речи Посполитой
+6. (2) Dates of the three collapses of the Commonwealth
 
 *
 1) 1773, 1793, 1795
@@ -67,22 +66,151 @@ c:\\\
 
 4) 1773, 1792, 1795
 
-7. (3) Политика обеспечения заготовок продовольствия за счёт обложения крестьян налогом в виде зерновых и других продуктов, проводившаяся в период с 1916 по 1921 год.
+7. (3) The policy of ensuring food procurement by taxing peasants in the form of grain and other products, carried out in the period from 1916 to 1921.
 
-*
-Подразвёрстка
+**
+Prodrazverstka
 
-8. (1) Дата отмены крепостного права
+8. (1) Date of the abolition of serfdom
 
-*
+**
 1861
 
-9. (3) Дайте определение понятию коллективизация
+9. (3) Define the concept of collectivization
+
+**
+
+Collectivization is a policy of uniting individual peasant farms into collective ones, carried out in the USSR in the period from 1928 to 1937.
+
+10.(3) Give the full opening date of the Minsk metro
+
+**
+June 29, 1984
+
+MATH
+
+1. (1) Calculate the derivative of the function: y(x)=2*x+10.
 
 *
-Коллективизация — политика объединения единоличных крестьянских хозяйств в коллективные, проводившаяся в СССР в период с 1928 по 1937 год.
+1) 2
 
-10.(3) Дайте полную дату открытия минского метро
+2) 2x+10
+
+3) 0
+
+4) 10
+
+2. (1) Calculate the integral of the constant 35 by x.  
+
+1) 35x
+
+2) 35
+
+3) C
 
 *
-29 июня 1984 г
+4) 35x+C
+
+3. (2) What is the extremum of a function?
+
+
+**
+Extremum is the maximum or minimum value of a function on a given set.
+
+
+4. (1) How many 3rd order minors does this determinant have?
+c:\---
+
+**
+1
+
+5. (3) What shape does this equation describe?
+с:\---
+
+**
+Sphere
+
+6. (1) Define a matrix.
+**
+A matrix is ??a mathematical object written as a rectangular table of elements of a ring or field, which is a collection of rows and columns at the intersection of which its elements are located.
+
+7. (1) Complete the following sentence: "The derivative of the constant is ... ."
+
+**
+Zero
+
+8. (3)  What shape does this equation describe?
+c:\---
+
+**
+Cone
+
+9. (3) Find the integral of 2x+10 dx. 
+
+1) 10
+ 
+*
+2) x^2+10x
+
+3) 2
+
+4) x^2+10
+
+
+10. (3) Raise the matrix to the power of 5. In response, write down the sum of the elements of the resulting matrix.
+c:\\\
+
+**
+9030
+
+RPIIS
+
+1. (1) Command to create a folder (Bash).
+
+**
+mkdir
+
+2. (1) Command to navigate directories.
+
+**
+cd
+
+3. (3) Write a regular expression to check the date, where the ellipsis is: regex check ("^...$").
+
+**
+([0-9]{2}:){2}([0-9]{2})
+
+4. (1) Define the concept of a strongly connected graph.
+
+**
+A strongly connected graph is a directed graph in which there is at least one path from each vertex to other vertices.
+
+5. (2) Command to create a folder for working with git.
+
+**
+git init
+
+6. (3) What one command can replace the combination of git fetch + git merge commands?
+
+**
+git pull
+
+7. (2) Command for adding a link to a remote repository.
+
+**
+git remote add origin 
+
+8. (1) What is Unicode?
+
+**
+Unicode is a character encoding standard that includes characters from almost all written languages ??in the world.
+
+9. (2) Write four ways to represent a graph separated by spaces.
+
+**
+Adjacency list, incidence list, adjacency matrix, incidence matrix.
+
+10. (3) What is a file?
+
+**
+A file is a named data area on a storage medium used as the basic object for interacting with data in operating systems.
