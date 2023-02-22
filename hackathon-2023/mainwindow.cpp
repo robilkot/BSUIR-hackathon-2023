@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->setFixedSize(QSize(400, 400));
 
-    read(":/input.txt");
+    read("E:\\work\\hackathon-2023\\hackathon-2023\\input.txt");
 
     choiceWindow = new Choice();
     //соединяю слот открытия главного окна с кнопкой в окне выбора сложности

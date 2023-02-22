@@ -10,7 +10,7 @@ Choice::Choice(QWidget *parent) :
     ui->menuButton->setIcon(QIcon(":/icons/exit.png"));
     ui->examButton->setIcon(QIcon(":/icons/checked.png"));
 
-    this->setFixedSize(QSize(400, 400));
+    this->setFixedSize(QSize(300, 300));
 
     connect(ui->comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
         [=](int index){

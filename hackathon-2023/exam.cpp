@@ -118,7 +118,14 @@ void Exam::nextQuestion()
     case Questions::TEST : // Если вопрос тестовый
     {
         ui->questionText->setText(newQuestion.testQuestion.task.first);
-        ui->questionPhoto->setPixmap(newQuestion.testQuestion.task.second); // Текст и фото вопроса ставим
+
+        QPixmap* pixmap = new QPixmap(newQuestion.testQuestion.task.second);
+        if(!pixmap->isNull()) {
+            ui->questionPhoto->setPixmap(*pixmap); // Текст и фото вопроса ставим
+            ui->questionPhoto->setMask(pixmap->mask());
+            ui->questionPhoto->setFixedSize(pixmap->width() * ui->questionText->height() / pixmap->height(),  ui->questionText->height());
+        } else
+            ui->questionPhoto->clear();
 
         QListWidget *list = new QListWidget; // Создаем лист
 
@@ -147,7 +154,7 @@ void Exam::nextQuestion()
     case Questions::OPEN: // Если вопрос открытый
     {
         ui->questionText->setText(newQuestion.openQuestion.task.first);
-        ui->questionPhoto->setPixmap(newQuestion.openQuestion.task.second); // Текст и фото вопроса ставим
+        ui->questionPhoto->setPixmap(QPixmap(newQuestion.openQuestion.task.second)); // Текст и фото вопроса ставим
 
         QLineEdit *lineEdit = new QLineEdit;
 
