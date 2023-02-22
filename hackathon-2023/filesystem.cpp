@@ -59,7 +59,7 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
 
                 }
 
-                else if (!c.isDigit()) {
+                else if (!c.isDigit() && c!='*') {
 
                     if (photo == false && buf.isEmpty()) {
                         buf = temp;
