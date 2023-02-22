@@ -49,6 +49,10 @@ public:
 
 signals:
     void mainWindow();
+
+public slots:
+    void startExam(); //queue<TestElement> queue);
+
 private slots:
     void on_exitButton_clicked();
 

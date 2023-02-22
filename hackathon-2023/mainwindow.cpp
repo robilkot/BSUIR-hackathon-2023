@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
     //соединяю слот открытия окна экзамена с кнопкой в окне сложности
     connect(choiceWindow,&Choice::examWindow,this,&MainWindow::openExamWindow);
 
+    // Когда открывается окно экзамена запускаем его
+    connect(choiceWindow, &Choice::examWindow, examWindow, &Exam::startExam);
 }
 
 MainWindow::~MainWindow()

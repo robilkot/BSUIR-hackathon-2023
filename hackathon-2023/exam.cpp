@@ -1,4 +1,5 @@
 #include "exam.h"
+#include "mainwindow.h"
 #include "ui_exam.h"
 
 Exam::Exam(QWidget *parent) :
@@ -6,71 +7,19 @@ Exam::Exam(QWidget *parent) :
     ui(new Ui::Exam)
 {
     ui->setupUi(this);
-    prepod = new Prepod(ui->prepodPicture, ui->prepodSatisfaction);
-
-    // Тестовый вопрос
-    TestQuestion tempq = {
-        Difficulty::HARD,
-        Subject::RPIIS,
-        "Fuck this damn project",
-        "",
-        {{"opt1", "path1"}, {"opt2", ""}, {"opt3", ""}},
-        1
-    };
-
-    OpenQuestion tempq2 = {
-        Difficulty::HARD,
-        Subject::RPIIS,
-        "Fuck this damn project",
-        "",
-        "Correct answer is so"
-    };
-
-    TestQuestion tempq3 = {
-        Difficulty::HARD,
-        Subject::RPIIS,
-        "Fuck this damn projec 2 2 2 t",
-        "",
-        {{"opt11", "path1"}, {"opt22", ""}, {"opt33", ""}},
-        0
-    };
-
-
-    TestElement temp = {
-        {},
-        tempq,
-        Questions::TEST
-    }, temp2 = {
-        tempq2,
-        {},
-        Questions::OPEN
-    }, temp3 = {
-        {},
-        tempq3,
-        Questions::TEST
-    };
-
-   questionsQueue.push(temp);
-   questionsQueue.push(temp2);
-   questionsQueue.push(temp3);
-
-   questionsQueue.push(temp);
-   questionsQueue.push(temp2);
-   questionsQueue.push(temp3);
-
-   questionsQueue.push(temp);
-   questionsQueue.push(temp2);
-   questionsQueue.push(temp3);
-
-   questionsNumber = questionsQueue.size();
-
-   nextQuestion();
+    prepod = new Prepod(ui->prepodPicture, ui->prepodSatisfaction, ui->prepodMessage);
 }
 
 Exam::~Exam()
 {
     delete ui;
     delete prepod;
+}
+
+void Exam::startExam() { //queue<TestElement> queue) {
+    //this->questionsQueue = queue;
+    questionsNumber = questionsQueue.size();
+    nextQuestion();
 }
 
 // Кастомный элемент списка (фото+текст)
@@ -121,8 +70,9 @@ void Exam::updateRating()
 void Exam::finishExam()
 {
     prepod->animateResult();
-    //...
-    qDebug() << "Exam finished!\n";
+    ui->nextButton->setEnabled(false);
+
+    // emit resultwindow or transform interface
 }
 
 void Exam::nextQuestion()
@@ -130,7 +80,7 @@ void Exam::nextQuestion()
     updateRating();
 
     QString prepodMessage = "Question " + QString::number(currentQuestionNumber) + '/' +  QString::number(questionsNumber);
-    ui->prepodMessage->setText(prepodMessage);
+    ui->questionNumber->setText(prepodMessage);
 
     if(questionsQueue.empty()) {
         finishExam();

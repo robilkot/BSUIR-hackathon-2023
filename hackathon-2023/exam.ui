@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1002</width>
-    <height>654</height>
+    <width>658</width>
+    <height>432</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
    <item row="0" column="1">
     <layout class="QVBoxLayout" name="prepodLayout" stretch="0">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0,0">
+      <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0,0,0">
        <item>
         <spacer name="verticalSpacer_2">
          <property name="orientation">
@@ -65,12 +65,19 @@
           <bool>false</bool>
          </property>
          <property name="format">
-          <string>Satisfaction</string>
+          <string/>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLabel" name="prepodMessage">
+         <property name="text">
+          <string>Message from prepod</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="questionNumber">
          <property name="text">
           <string>Question 1/10</string>
          </property>
@@ -130,6 +137,11 @@
       <layout class="QHBoxLayout" name="questionLayout">
        <item>
         <widget class="QLabel" name="questionText">
+         <property name="font">
+          <font>
+           <pointsize>18</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Empty question</string>
          </property>
@@ -137,6 +149,11 @@
        </item>
        <item>
         <widget class="QLabel" name="questionPhoto">
+         <property name="font">
+          <font>
+           <pointsize>18</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Empty question photo</string>
          </property>

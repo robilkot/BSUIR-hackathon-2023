@@ -11,6 +11,7 @@ class Prepod
     unsigned short state = 50; // Удовлетворенность препода
     QLabel* picture; // Указатель на лейбл который представляет пикчу препода
     QProgressBar *satisfaction; // Указатель на прогресс бар который представляет удовлетворенность препода
+    QLabel* message;
 
     QMovie *idle = new QMovie(":/exam/prepod_idle.gif"),
             *agree = new QMovie(":/exam/prepod_agree.gif"),
@@ -19,10 +20,11 @@ class Prepod
             *result = new QMovie(":/exam/prepod_result.gif");
 
     public:
-    Prepod(QLabel* picture, QProgressBar* satisfaction)
+    Prepod(QLabel* picture, QProgressBar* satisfaction, QLabel* message)
     {
         this->picture = picture;
         this->satisfaction = satisfaction;
+        this->message = message;
 
         adjustSatisfaction(0);
         animateIdle();
@@ -37,7 +39,7 @@ class Prepod
         delete result;
     }
 
-    void stopAnimation(QMovie* picture, int delay) { // Stop given animation after given delay
+    void stopAnimation(QMovie* picture, QLabel* message, int delay) { // Stop given animation after given delay
         QTimer *timer = new QTimer();
         QObject::connect(timer, &QTimer::timeout, [=]() {
             picture->stop();
@@ -57,30 +59,40 @@ class Prepod
 
     void animateIdle() {
         picture->setMovie(idle);
+        message->setText("Well, i'm waiting for your answer...");
         idle->start();
     }
     void animateAgree() {
         picture->setMovie(agree);
         agree->start();
+        message->setText("Okay, your answer seems correct. Now to the next question.");
 
-        stopAnimation(agree, 1000);
+        stopAnimation(agree, message, 3000);
     }
     void animateDisagree() {
         picture->setMovie(disagree);
         disagree->start();
+        message->setText("No, that isn't correct.");
 
-        stopAnimation(disagree, 1000);
+        stopAnimation(disagree, message, 3000);
     }
     void animateAgreePartly() {
         picture->setMovie(agreePartly);
         agreePartly->start();
+        message->setText("This is... not quite right. Anyway, next question.");
 
-        stopAnimation(agreePartly, 1000);
+        stopAnimation(agreePartly, message, 3000);
     }
     void animateResult() {
         picture->setMovie(result);
         result->start();
+        message->setText("That was it. Now let's take a look at your results.");
 
-        stopAnimation(result, 1000);
+        QTimer *timer = new QTimer();
+        QObject::connect(timer, &QTimer::timeout, [=]() {
+            result->stop();
+            delete timer;
+        } );
+        timer->start(1000);
     }
 };

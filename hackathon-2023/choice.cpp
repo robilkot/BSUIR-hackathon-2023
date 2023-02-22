@@ -6,11 +6,26 @@ Choice::Choice(QWidget *parent) :
     ui(new Ui::Choice)
 {
     ui->setupUi(this);
+
+    connect(ui->comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        [=](int index){
+            setSubject(index);
+        });
 }
 
 Choice::~Choice()
 {
     delete ui;
+}
+
+void Choice::setDifficulty(int index)
+{
+    this->selectedDifficulty = (Difficulty)index;
+}
+
+void Choice::setSubject(int index)
+{
+    this->selectedSubject = (Subject)index;
 }
 
 void Choice::on_pushButton_clicked()
@@ -23,7 +38,55 @@ void Choice::on_pushButton_5_clicked()
 {
     this->close();      // Закрываем окно
 
-    // Тут надо передавать в exam вызванную buildQueue; ...
+    // Тестовый вопрос
+    TestQuestion tempq = {
+        Difficulty::EASY,
+        Subject::RPIIS,
+        "Fuck this damn project",
+        "",
+        {{"opt1", "path1"}, {"opt2", ""}, {"opt3", ""}},
+        1
+    };
+
+    OpenQuestion tempq2 = {
+        Difficulty::MIDDLE,
+        Subject::RPIIS,
+        "Fuck this damn project 2",
+        "",
+        "Correct answer is so"
+    };
+
+    TestQuestion tempq3 = {
+        Difficulty::HARD,
+        Subject::RPIIS,
+        "Fuck this damn projec 3 ",
+        "",
+        {{"opt11", "path1"}, {"opt22", ""}, {"opt33", ""}},
+        0
+    };
+
+    TestElement temp = {
+        {},
+        tempq,
+        Questions::TEST
+    }, temp2 = {
+        tempq2,
+        {},
+        Questions::OPEN
+    }, temp3 = {
+        {},
+        tempq3,
+        Questions::TEST
+    };
+
+    vector<TestElement> questions;
+    questions.push_back(temp);
+    questions.push_back(temp2);
+    questions.push_back(temp3);
+
+    queue<TestElement> test = buildQueue(questions, selectedDifficulty, selectedSubject);
+
+    // Передать test в поле questionsQueue экзамена
 
     emit examWindow();  //сигнал на открытие окна экзамена
 }
@@ -56,3 +119,24 @@ queue<TestElement> Choice::buildQueue(vector<TestElement>& questions, Difficulty
 
     return queue;
 }
+
+void Choice::on_pushButton_3_clicked()
+{
+    setDifficulty(0);
+}
+
+void Choice::on_pushButton_2_clicked()
+{
+    setDifficulty(1);
+}
+
+void Choice::on_pushButton_4_clicked()
+{
+    setDifficulty(2);
+}
+
+void Choice::on_comboBox_currentIndexChanged(int index)
+{
+    setSubject(index);
+}
+

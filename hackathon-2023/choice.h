@@ -18,15 +18,31 @@ public:
     explicit Choice(QWidget *parent = nullptr);
     ~Choice();
 
+
+    Difficulty selectedDifficulty = Difficulty::MIDDLE;
+    Subject selectedSubject = Subject::NONSPECIFIED;
+
+    void setDifficulty(int index);
+    void setSubject(int index);
+
     queue<TestElement> buildQueue(vector<TestElement>& questions, Difficulty difficulty, Subject subject);
 
 signals:
+
     void mainWindow();
     void examWindow();
 private slots:
     void on_pushButton_clicked();
 
     void on_pushButton_5_clicked();
+
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_4_clicked();
+
+    void on_comboBox_currentIndexChanged(int index);
 
 private:
     Ui::Choice *ui;
