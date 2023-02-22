@@ -85,7 +85,7 @@ void Editor::on_deleteQButon_clicked()
             {
                 Q_EMIT on_deleteAns_clicked();
             }
-            //emit findDifficult();
+            emit findDifficult();
         }
     }
     Q_EMIT deleteQ();
@@ -347,64 +347,64 @@ void Editor::on_saveButton_clicked()
 
 void Editor::on_easyBox_clicked()
 {
-//    if(!QuestionVector->empty())
-//    {
-//    questionStruct &temp =QuestionVector->back();
-//        temp.b->difficulty = Difficulty::EASY;
-//        temp.a->difficulty = Difficulty::EASY;
-//    }
-//    ui->hardBox->setChecked(0);
-//    ui->middleBox->setChecked(0);
+    if(!QuestionVector->empty())
+    {
+    questionStruct &temp =QuestionVector->back();
+        temp.b->difficulty = Difficulty::EASY;
+        temp.a->difficulty = Difficulty::EASY;
+    }
+    ui->hardBox->setChecked(0);
+    ui->middleBox->setChecked(0);
 }
 
 
 void Editor::on_middleBox_clicked()
 {
-//    if(!QuestionVector->empty()){
-//    questionStruct &temp =QuestionVector->back();
-//        temp.b->difficulty = Difficulty::MIDDLE;
-//        temp.a->difficulty = Difficulty::MIDDLE;
-//    }
-//    ui->easyBox->setChecked(0);
-//    ui->hardBox->setChecked(0);
+    if(!QuestionVector->empty()){
+    questionStruct &temp =QuestionVector->back();
+        temp.b->difficulty = Difficulty::MIDDLE;
+        temp.a->difficulty = Difficulty::MIDDLE;
+    }
+    ui->easyBox->setChecked(0);
+    ui->hardBox->setChecked(0);
 }
 
 
 void Editor::on_hardBox_clicked()
 {
-//    if(!QuestionVector->empty())
-//    {
-//    questionStruct &temp =QuestionVector->back();
-//        temp.b->difficulty = Difficulty::HARD;
-//        temp.a->difficulty = Difficulty::HARD;
-//    }
-//    ui->easyBox->setChecked(0);
-//    ui->middleBox->setChecked(0);
+    if(!QuestionVector->empty())
+    {
+    questionStruct &temp =QuestionVector->back();
+        temp.b->difficulty = Difficulty::HARD;
+        temp.a->difficulty = Difficulty::HARD;
+    }
+    ui->easyBox->setChecked(0);
+    ui->middleBox->setChecked(0);
 }
 void Editor::findDifficult()
 {
-//    if(!QuestionVector->empty())
-//    {
-//    questionStruct &temp =QuestionVector->back();
+    if(!QuestionVector->empty())
+    {
+    questionStruct &temp =QuestionVector->back();
 
-//    switch (temp.a->difficulty) {
-//    case Difficulty::EASY:
-//    {
-//        emit on_easyBox_clicked();
-//        break;
-//    }
-//    case Difficulty::MIDDLE:
-//    {
-//        emit on_middleBox_clicked();
-//        break;
-//    }
-//    case Difficulty::HARD:
-//    {
-//        emit on_hardBox_clicked();
-//        break;
-//    }
-//    default:
-//        break;
-//    }
-//    }
+    switch (temp.a->difficulty) {
+    case Difficulty::EASY:
+    {
+        emit on_easyBox_clicked();
+        break;
+    }
+    case Difficulty::MIDDLE:
+    {
+        emit on_middleBox_clicked();
+        break;
+    }
+    case Difficulty::HARD:
+    {
+        emit on_hardBox_clicked();
+        break;
+    }
+    default:
+        break;
+    }
+    }
 }
