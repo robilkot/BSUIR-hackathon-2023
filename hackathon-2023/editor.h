@@ -25,8 +25,9 @@ Q_SIGNALS:
     void addQ();
     void deleteQ();
     void typeChange();
-private Q_SLOTS:
+public slots:
     void editorStart();
+private Q_SLOTS:
     void findDifficult();
     void on_exitButton_clicked();
 

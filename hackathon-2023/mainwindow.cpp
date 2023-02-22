@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->setFixedSize(QSize(400, 400));
 
-    read("D:/BSUIR-hackathon-2023-main/hackathon-2023");
+    read("D:/BSUIR-hackathon-2023-main/hackathon-2023/input.txt");
 
     choiceWindow = new Choice();
     //соединяю слот открытия главного окна с кнопкой в окне выбора сложности
@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(choiceWindow, &Choice::examWindow, examWindow, &Exam::startExam);
     //передаю из choice в exam объект test
     connect(choiceWindow,&Choice::updateQueue,this,&MainWindow::updateQueue);
+    //connect(editorWindow,&Editor::mainWindow,this,&MainWindow::show);
 }
 
 MainWindow::~MainWindow()
@@ -69,6 +70,7 @@ void MainWindow::on_editorButton_clicked()
 {
     //editorWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
     editorWindow->setTest(test);
+    editorWindow->editorStart();
     editorWindow->show();  // Показываем окно редактора
     this->close();         // Закрываю главное окно
 }

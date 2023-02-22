@@ -420,22 +420,30 @@ void Editor::findDifficult()
 }
 
 void Editor::editorStart(){
+    qDebug()<< test.size();
     for(int i=0;i<test.size();++i)
     {
+
         TestElement &temp = test.at(i);
         questionStruct a;
         *a.a=temp.testQuestion;
         *a.b= temp.openQuestion;
         if(temp.questions==Questions::OPEN)
         {
-            a.type=0;
+            a.type=1;
+        }
+        else if(temp.questions==Questions::TEST)
+        {
+             a.type=0;
         }
         else
         {
-             a.type=1;
+            qDebug() << "pipяо";
         }
 
         QuestionVector->push_back(a);
+        qDebug()<< QuestionVector->size();
+        emit updateTable();
     }
 
 }
