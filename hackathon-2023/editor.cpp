@@ -111,7 +111,7 @@ void Editor::updateTable()
 }
 
 void Editor::on_addAns_clicked()
-{   if(!QuestionVector->empty()){
+{   if(!QuestionVector->empty()&& ui->verticalLayout_3->count()<6){
         questionStruct &temp =QuestionVector->back();
         emit findDifficult();
 
