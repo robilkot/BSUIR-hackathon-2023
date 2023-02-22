@@ -38,59 +38,7 @@ void Choice::on_examButton_clicked()
 {
     this->close();      // Закрываем окно
 
-    TestQuestion tempq = {
-        Difficulty::EASY,
-        Subject::NONSPECIFIED,
-        "Fuck this damn project",
-        "",
-        {{"opt1", "path1"}, {"opt2", ""}, {"opt3", ""}},
-        1
-    };
-
-    OpenQuestion tempq2 = {
-        Difficulty::MIDDLE,
-        Subject::NONSPECIFIED,
-        "Fuck this damn project 2",
-        "",
-        "Correct answer is so"
-    };
-
-    TestQuestion tempq3 = {
-        Difficulty::HARD,
-        Subject::NONSPECIFIED,
-        "Fuck this damn projec 3 ",
-        "",
-        {{"opt11", "path1"}, {"opt22", ""}, {"opt33", ""}},
-        0
-    };
-
-    TestElement temp = {
-        {},
-        tempq,
-        Questions::TEST
-    }, temp2 = {
-        tempq2,
-        {},
-        Questions::OPEN
-    }, temp3 = {
-        {},
-        tempq3,
-        Questions::TEST
-    };
-
-    vector<TestElement> questions;
-    questions.push_back(temp);
-    questions.push_back(temp2);
-    questions.push_back(temp3);
-
-    questions.push_back(temp);
-    questions.push_back(temp2);
-    questions.push_back(temp3);
-
-    questions.push_back(temp);
-    questions.push_back(temp2);
-    questions.push_back(temp3);
-
+    
     test = buildQueue(questions);
 
     // Передать test в поле questionsQueue экзамена
