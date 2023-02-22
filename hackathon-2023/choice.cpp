@@ -84,10 +84,10 @@ void Choice::on_pushButton_5_clicked()
     questions.push_back(temp2);
     questions.push_back(temp3);
 
-    queue<TestElement> test = buildQueue(questions, selectedDifficulty, selectedSubject);
+    test = buildQueue(questions, selectedDifficulty, selectedSubject);
 
     // Передать test в поле questionsQueue экзамена
-
+    emit updateQueue();
     emit examWindow();  //сигнал на открытие окна экзамена
 }
 
@@ -118,6 +118,11 @@ queue<TestElement> Choice::buildQueue(vector<TestElement>& questions, Difficulty
     }
 
     return queue;
+}
+
+queue<TestElement> Choice::getTest() const
+{
+    return test;
 }
 
 void Choice::on_pushButton_3_clicked()

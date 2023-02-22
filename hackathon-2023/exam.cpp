@@ -2,6 +2,11 @@
 #include "mainwindow.h"
 #include "ui_exam.h"
 
+void Exam::setQuestionsQueue(const queue<TestElement> &newQuestionsQueue)
+{
+    questionsQueue = newQuestionsQueue;
+}
+
 Exam::Exam(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Exam)

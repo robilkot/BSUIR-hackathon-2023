@@ -26,11 +26,14 @@ public:
     void setSubject(int index);
 
     queue<TestElement> buildQueue(vector<TestElement>& questions, Difficulty difficulty, Subject subject);
+    queue<TestElement> test;
+    queue<TestElement> getTest() const;
 
 signals:
 
     void mainWindow();
     void examWindow();
+    void updateQueue();
 private slots:
     void on_pushButton_clicked();
 

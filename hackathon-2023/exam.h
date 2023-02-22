@@ -47,6 +47,8 @@ public:
     void nextQuestion();
     void clearHBoxLayout(QHBoxLayout* layout);
 
+    void setQuestionsQueue(const queue<TestElement> &newQuestionsQueue);
+
 signals:
     void mainWindow();
 

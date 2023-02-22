@@ -27,6 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Когда открывается окно экзамена запускаем его
     connect(choiceWindow, &Choice::examWindow, examWindow, &Exam::startExam);
+    //передаю из choice в exam объект test
+    connect(choiceWindow,&Choice::updateQueue,this,&MainWindow::updateQueue);
+
 }
 
 MainWindow::~MainWindow()
@@ -64,6 +67,11 @@ void MainWindow::openExamWindow()
     examWindow->setFixedSize(this->size());//делаем размер окна таким же, как и у основного
     examWindow->show();  // Показываем окно экзамена
     this->close();           // Закрываю главное окно
+}
+
+void MainWindow::updateQueue()
+{
+    examWindow->setQuestionsQueue(choiceWindow->getTest());
 }
 
 

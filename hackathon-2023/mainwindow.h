@@ -30,6 +30,8 @@ private slots:
 
     void openExamWindow();
 
+    void updateQueue();
+
 private:
     Choice *choiceWindow;
     Settings *settingsWindow;
