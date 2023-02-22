@@ -15,7 +15,7 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
 
         QFile file(path);
         static QRegularExpression check_1("([(]{1}[1-3]{1}[)]{1})");
-        static QRegularExpression check_2("([a-zA-Z[:space:]]{1}[:]{1}[/]{1})");
+        static QRegularExpression check_2("([a-zA-Z[:space:]]+[:]{1}[/\\]{1})");
 
         if (file.open(QIODevice::ReadOnly |QIODevice::Text))
         {
