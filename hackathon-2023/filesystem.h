@@ -11,11 +11,14 @@
 #include <iostream>
 #include <vector>
 #include <QString>
+#include <QChar>
 #include <QFile>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QDebug>
+
 using namespace std;
+
 class FileSystem
 {
 public:

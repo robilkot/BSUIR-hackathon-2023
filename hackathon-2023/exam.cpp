@@ -39,7 +39,7 @@ public:
         QHBoxLayout *layout = new QHBoxLayout;
         layout->addWidget(textLabel);
 
-        if(!pixmap.isNull()) {
+        if(!pixmap.isNull()) { // Эта функция проклята
             pixmap = pixmap.scaled(pixmap.width() / pixmap.height() * 100,  100);
 
             imageLabel = new QLabel;
@@ -140,8 +140,10 @@ void Exam::nextQuestion()
 
     currentQuestionScore = -10; // По дефолту значение -10, для ситуации с невыбранным вариантом ответа
 
-    switch(newQuestion.questions) {
-    case Questions::TEST : // Если вопрос тестовый
+    //switch(newQuestion.questions) {
+    switch(newQuestion.openQuestion.correctAnswer.isEmpty()) {
+    //case Questions::TEST : // Если вопрос тестовый
+    case true :
     {
         ui->questionText->setText(newQuestion.testQuestion.task.first);
 
@@ -158,7 +160,7 @@ void Exam::nextQuestion()
         ui->answerLayout->addWidget(list); // Кидаем его на лейаут
 
         for(const auto& option : newQuestion.testQuestion.options) { // Заполняем список
-            qDebug() << option.second << "\n";
+            //qDebug() << option.second << "\n";
             CustomListItem *newOption = new CustomListItem(option.first, QPixmap(option.second), list);
             list->addItem(newOption);
         }
@@ -178,7 +180,8 @@ void Exam::nextQuestion()
 
         break;
     }
-    case Questions::OPEN: // Если вопрос открытый
+    //case Questions::OPEN: // Если вопрос открытый
+    case false :
     {
         ui->questionText->setText(newQuestion.openQuestion.task.first);
 
@@ -195,7 +198,7 @@ void Exam::nextQuestion()
 
         connect(lineEdit, &QLineEdit::returnPressed, this, [=]()
         {
-            float similarity = 0.5; //= nextQuestion.openQuestion.getAnswerCorrentness(lineEdit->text());
+            float similarity = lineEdit->text() == newQuestion.openQuestion.correctAnswer; //= nextQuestion.openQuestion.getAnswerCorrentness(lineEdit->text());
 
             if(similarity > 0.85) {
                 currentQuestionScore = 15;

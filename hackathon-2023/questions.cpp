@@ -73,7 +73,7 @@ public:
         this->correctAnswer = correctAnswer;
     }
 
-    QString correctAnswer = "Empty correct answer";
+    QString correctAnswer = "";
     
     float getAnswerCorrentness(QString answer) {
         //return meaningSimilarity(answer, correctAnswer);
