@@ -81,21 +81,21 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_6">
            <item>
-            <widget class="QRadioButton" name="easyRadioButton">
+            <widget class="QCheckBox" name="easyBox">
              <property name="text">
               <string>Easy</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QRadioButton" name="normRadioButton">
+            <widget class="QCheckBox" name="middleBox">
              <property name="text">
               <string>Middle</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QRadioButton" name="hardRadioButton">
+            <widget class="QCheckBox" name="hardBox">
              <property name="text">
               <string>Hard</string>
              </property>
