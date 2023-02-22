@@ -23,6 +23,7 @@ Editor::Editor(QWidget *parent) :
     ui->comboBox_2->addItem("HISTORY");
 
     ui->tableWidget->setColumnCount(2);
+    ui->textEdit_2->hide();
 
     connect(this,&Editor::addQ,this,&Editor::updateTable);//подключил расширение таблицы к нажатию кнопки добавления эл-та
     connect(this,&Editor::deleteQ,this,&Editor::updateTable);//подключил уменьшение таблицы к нажатию кнопки удаления эл-та
@@ -54,6 +55,7 @@ void Editor::on_addQButton_clicked()
     }
     Q_EMIT addQ();
     ui->textEdit->clear();
+    ui->textEdit_2->clear();
 }
 void Editor::on_deleteQButon_clicked()
 {
@@ -63,6 +65,7 @@ void Editor::on_deleteQButon_clicked()
         if(!QuestionVector->empty())
         {
             ui->textEdit->setText(QuestionVector->back().a->task.first);
+            ui->textEdit_2->setText(QuestionVector->back().b->correctAnswer);
             int count = ui->verticalLayout_4->count();
             for(int i=0;i<count;i++)
             {
@@ -125,9 +128,19 @@ void Editor::on_addAns_clicked()
    connect(lineEdit,&DynamicLineEdit::textEdited,this,&Editor::editOfDynamicEditText);
    connect(radioButton,&DynamicRadioButton::clicked,[&]()
    {
-       questionStruct &temp =QuestionVector->back();
-       int count =ui->verticalLayout_3->count();
-       temp.a->correctAnswer = count;
+//       questionStruct &temp =QuestionVector->back();
+//       int count =ui->verticalLayout_3->count();
+//       temp.a->correctAnswer = count;
+         questionStruct &temp =QuestionVector->back();
+         for(int i=1;i<ui->verticalLayout_2->count();++i)
+         {
+             DynamicRadioButton *radioButton = qobject_cast<DynamicRadioButton*>(ui->verticalLayout_2->itemAt(i)->widget());
+             if(radioButton->isChecked())
+             {
+                 temp.a->correctAnswer =i;
+             }
+         }
+       qDebug()<< temp.a->correctAnswer;
    });
     }
 }
@@ -135,8 +148,7 @@ void Editor::on_addAns_clicked()
 void Editor::on_deleteAns_clicked()
 {
     if(ui->verticalLayout_4->count()!=0){
-    if(ui->verticalLayout_4->count()!=0)
-    {
+
     DynamicLabel *label = qobject_cast<DynamicLabel*>(ui->verticalLayout_4->itemAt(ui->verticalLayout_4->count()-1)->widget());
     if(ui->verticalLayout_4->count()==1)
     {
@@ -148,7 +160,6 @@ void Editor::on_deleteAns_clicked()
     }
     label->hide();
     delete label;
-    }
 
     if(ui->verticalLayout_3->count()!=0)
     {
@@ -327,6 +338,15 @@ void Editor::on_textEdit_textChanged()
     Q_EMIT updateTable();
 }
 
+void Editor::on_textEdit_2_textChanged()
+{
+    if(!QuestionVector->empty()){
+    questionStruct &temp =QuestionVector->back();
+    temp.b->correctAnswer=ui->textEdit_2->document()->toRawText();
+    questionStruct &temp1 =QuestionVector->back();
+    qDebug()<< temp1.b->correctAnswer;
+    }
+}
 void Editor::editOfDynamicEditText()
 {
         DynamicLineEdit *lineEdit = qobject_cast<DynamicLineEdit*>(ui->verticalLayout_3->itemAt(ui->verticalLayout_3->count()-1)->widget());
@@ -336,6 +356,8 @@ void Editor::editOfDynamicEditText()
         questionStruct &temp1 =QuestionVector->back();
         qDebug()<< "first  "<< temp1.a->options.at(ui->verticalLayout_3->count()-1).first;
 }
+
+
 
 
 

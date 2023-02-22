@@ -52,6 +52,8 @@ private Q_SLOTS:
 
     void editOfDynamicEditText();
 
+    void on_textEdit_2_textChanged();
+
 private:
     Ui::Editor *ui;
 
