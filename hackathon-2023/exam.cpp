@@ -103,7 +103,21 @@ void Exam::finishExam()
     prepod->animateResult();
     ui->nextButton->setEnabled(false);
 
-    // emit resultwindow or transform interface
+    clearHBoxLayout(ui->answerLayout);
+
+    QString result = "So, here is your result:\n";
+
+    unsigned short state = prepod->getState();
+    if (state > 60) {
+        result += "Prepod was glad to hear your answers. He is satisfied with your level of knowledge. Continue studying!";
+    } else if (state > 30) {
+        result += "Prepod believes you could have done it better. Continue studying!";
+    } else {
+        result += "As prepod already said, it smells like a retake. Begin studying!";
+    }
+
+    ui->questionText->setText(result);
+    ui->questionPhoto->clear();
 }
 
 void Exam::nextQuestion()
