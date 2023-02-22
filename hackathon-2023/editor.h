@@ -48,6 +48,10 @@ private Q_SLOTS:
 
     void on_easyRadioButton_clicked(bool checked);
 
+    void on_textEdit_textChanged();
+
+    void editOfDynamicEditText();
+
 private:
     Ui::Editor *ui;
 

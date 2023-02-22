@@ -1,4 +1,4 @@
-#include "editor.h"
+﻿#include "editor.h"
 #include "ui_editor.h"
 #include <QDebug>
 #include "dynamiclabel.h"
@@ -18,7 +18,8 @@ Editor::Editor(QWidget *parent) :
     ui->comboBox->addItem("Open");
 
     ui->comboBox_2->addItem("NONSPECIFIED");
-    ui->comboBox_2->addItem("CALCULUS");
+    ui->comboBox_2->addItem("RPIIS");
+    ui->comboBox_2->addItem("MATH");
     ui->comboBox_2->addItem("HISTORY");
 
     ui->tableWidget->setColumnCount(2);
@@ -42,18 +43,26 @@ void Editor::on_exitButton_clicked()
 
 void Editor::on_addQButton_clicked()
 {
+
     questionStruct *a= new questionStruct();
     QuestionVector->push_back(*a);
     Q_EMIT on_comboBox_activated(0);
     Q_EMIT addQ();
+    ui->textEdit->clear();
 }
 void Editor::on_deleteQButon_clicked()
 {
     if(!QuestionVector->empty())
     {
      QuestionVector->pop_back();
+        if(!QuestionVector->empty())
+        {
+            ui->textEdit->setText(QuestionVector->back().a->task.first);
+        }
+
     }
     Q_EMIT deleteQ();
+
 }
 
 void Editor::updateTable()
@@ -66,6 +75,9 @@ void Editor::updateTable()
         if(!QuestionVector->at(i).type)//если testQuestion
         {
             TestQuestion *q =QuestionVector->at(i).a;
+           // qDebug()<<"Text "<< QuestionVector->at(i).a->task.first;
+            //qDebug()<<"Text of back "<< QuestionVector->back().a->task.first;
+           // qDebug()<<"Difficulty  "<< QuestionVector->back().a->difficulty;
             temp = new QTableWidgetItem(q->task.first);
         }
         else
@@ -92,6 +104,19 @@ void Editor::on_addAns_clicked()
 
    DynamicRadioButton *radioButton = new DynamicRadioButton(this);
    ui->verticalLayout_2->addWidget(radioButton);
+
+    qDebug()<< "counter "<< ui->verticalLayout_3->count();
+
+   if(!QuestionVector->back().a->options.empty())
+       if(ui->verticalLayout_3->count()>2)
+       {
+           questionStruct &temp =QuestionVector->back();
+          temp.a->options.push_back(pair<QString, QString>{ "Empty answer", "" });
+       }
+   {
+       connect(lineEdit,&DynamicLineEdit::textEdited,this,&Editor::editOfDynamicEditText);
+    //questionStruct &temp =QuestionVector->back();
+   }
 }
 
 void Editor::on_deleteAns_clicked()
@@ -155,15 +180,27 @@ void Editor::on_comboBox_2_activated(int index)
     {
         if(temp.type)
         {
-            //temp.b->subject=Subject::CALCULUS;
+            temp.b->subject=Subject::RPIIS;
         }
         else
         {
-            //temp.a->subject=Subject::CALCULUS;
+            temp.a->subject=Subject::RPIIS;
         }
         break;
     }
     case 2:
+    {
+        if(temp.type)
+        {
+            temp.b->subject=Subject::MATH;
+        }
+        else
+        {
+            temp.a->subject=Subject::MATH;
+        }
+        break;
+    }
+    case 3:
     {
         if(temp.type)
         {
@@ -175,6 +212,7 @@ void Editor::on_comboBox_2_activated(int index)
         }
         break;
     }
+
     default:
     {
         break;
@@ -196,6 +234,11 @@ void Editor::on_comboBox_activated(int index)
     }
     else
     {
+        int count = ui->verticalLayout_2->count();
+        for(int i=0;i<count;i++)
+        {
+            Q_EMIT on_deleteAns_clicked();
+        }
         ui->addAns->hide();
         ui->deleteAns->hide();
         ui->textEdit_2->show();
@@ -255,3 +298,24 @@ void Editor::on_easyRadioButton_clicked(bool checked)
     }
 }
 
+
+void Editor::on_textEdit_textChanged()
+{
+    if(!QuestionVector->empty()){
+    questionStruct &temp =QuestionVector->back();
+    temp.a->task.first=ui->textEdit->document()->toRawText();
+    temp.b->task.first=ui->textEdit->document()->toRawText();
+    }
+    Q_EMIT updateTable();
+
+}
+
+void Editor::editOfDynamicEditText()
+{
+        DynamicLineEdit *lineEdit = qobject_cast<DynamicLineEdit*>(ui->verticalLayout_3->itemAt(ui->verticalLayout_3->count()-1)->widget());
+        questionStruct &temp =QuestionVector->back();
+        qDebug()<< "text " << (lineEdit->displayText());
+        temp.a->options.at(ui->verticalLayout_3->count()).first = (lineEdit->displayText());
+        questionStruct &temp1 =QuestionVector->back();
+        qDebug()<< "first  "<< temp1.a->options.back().first;
+}
