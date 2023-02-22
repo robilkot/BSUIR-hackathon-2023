@@ -20,6 +20,10 @@ class Prepod
             *result = new QMovie(":/exam/prepod_result.gif");
 
     public:
+    unsigned short getState() {
+        return this->state;
+    }
+
     Prepod(QLabel* picture, QProgressBar* satisfaction, QLabel* message)
     {
         this->picture = picture;

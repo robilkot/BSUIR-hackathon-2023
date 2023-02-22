@@ -7,6 +7,8 @@ Settings::Settings(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->menuButton->setIcon(QIcon(":/icons/notebook.png"));
+    this->setFixedSize(this->width(), this->height());
 }
 
 Settings::~Settings()
@@ -14,7 +16,7 @@ Settings::~Settings()
     delete ui;
 }
 
-void Settings::on_pushButton_clicked()
+void Settings::on_menuButton_clicked()
 {
     this->close();      // Закрываем окно
     emit mainWindow();  // Сигнал на открытие главного окна

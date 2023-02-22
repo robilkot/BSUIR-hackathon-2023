@@ -17,7 +17,7 @@ public:
 signals:
     void mainWindow();
 private slots:
-    void on_pushButton_clicked();
+    void on_menuButton_clicked();
 
 private:
     Ui::Settings *ui;
