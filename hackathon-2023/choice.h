@@ -36,7 +36,7 @@ signals:
     void examWindow();
     void updateQueue();
 private slots:
-    void on_exitButton_clicked();
+    void on_menuButton_clicked();
 
     void on_examButton_clicked();
 
