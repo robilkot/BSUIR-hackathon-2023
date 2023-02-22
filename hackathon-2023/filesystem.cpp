@@ -88,16 +88,19 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
 
                 }
                 else if (temp == "*") correct = true;
-                else if (temp=="**") open=true;
+                    else if(temp=="**") {
+
+                        temp=s.readLine();
+                        test[i].openQuestion.correctAnswer=temp;
+
+
+                        need=true;
+                    }
+
                 else if (temp.isEmpty()) {
                     continue;
                 }
-                else if(open==true){
-                      test[i].openQuestion.correctAnswer = temp;
-                      open=false;
 
-                      need=true;
-                }
                 else
                 {
                     if (photo == true) {
