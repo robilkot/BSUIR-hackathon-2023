@@ -140,10 +140,10 @@ void Exam::nextQuestion()
 
     currentQuestionScore = -10; // По дефолту значение -10, для ситуации с невыбранным вариантом ответа
 
-    //switch(newQuestion.questions) {
-    switch(newQuestion.openQuestion.correctAnswer.isEmpty()) {
-    //case Questions::TEST : // Если вопрос тестовый
-    case true :
+    switch(newQuestion.questions) {
+    //switch(newQuestion.openQuestion.correctAnswer.isEmpty()) {
+    case Questions::TEST : // Если вопрос тестовый
+    //case true :
     {
         ui->questionText->setText(newQuestion.testQuestion.task.first);
 
@@ -180,8 +180,8 @@ void Exam::nextQuestion()
 
         break;
     }
-    //case Questions::OPEN: // Если вопрос открытый
-    case false :
+    case Questions::OPEN: // Если вопрос открытый
+    //case false :
     {
         ui->questionText->setText(newQuestion.openQuestion.task.first);
 
