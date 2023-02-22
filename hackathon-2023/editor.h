@@ -22,7 +22,7 @@ Q_SIGNALS:
     void deleteQ();
     void typeChange();
 private Q_SLOTS:
-
+    void findDifficult();
     void on_exitButton_clicked();
 
     void on_addQButton_clicked();

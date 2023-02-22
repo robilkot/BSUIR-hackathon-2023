@@ -16,15 +16,14 @@ Editor::Editor(QWidget *parent) :
 
     QuestionVector = new vector<questionStruct>;//вектор для хранения списака вопросов
 
-    ui->comboBox->addItem("Test");
-    ui->comboBox->addItem("Open");
+
 
     ui->comboBox_2->addItem("NONSPECIFIED");
     ui->comboBox_2->addItem("RPIIS");
     ui->comboBox_2->addItem("MATH");
     ui->comboBox_2->addItem("HISTORY");
 
-    ui->tableWidget->setColumnCount(2);
+
     ui->textEdit_2->hide();
 
     ui->addQButton->setIcon(QIcon(":/icons/add.png"));
@@ -55,10 +54,11 @@ void Editor::on_exitButton_clicked()
 
 void Editor::on_addQButton_clicked()
 {
-
     questionStruct *a= new questionStruct();
     QuestionVector->push_back(*a);
     Q_EMIT on_comboBox_activated(0);
+    questionStruct &temp =QuestionVector->back();
+
     int count = ui->verticalLayout_4->count();
     for(int i=0;i<count;i++)
     {
@@ -113,7 +113,8 @@ void Editor::updateTable()
 void Editor::on_addAns_clicked()
 {   if(!QuestionVector->empty()){
         questionStruct &temp =QuestionVector->back();
-        qDebug()<< temp.a->correctAnswer;
+        emit findDifficult();
+
     DynamicLabel *label = new DynamicLabel(this);
     label->setText("Answer"+QString::number(label->getID()));
     ui->verticalLayout_4->addWidget(label);
@@ -125,12 +126,7 @@ void Editor::on_addAns_clicked()
 
    DynamicRadioButton *radioButton = new DynamicRadioButton(this);
    ui->verticalLayout_2->addWidget(radioButton);
-
-   if(!QuestionVector->back().a->options.empty()){
-           questionStruct &temp =QuestionVector->back();
          temp.a->options.push_back(pair<QString, QString>{ "Empty answer", "" });
-
-   }
     if(ui->verticalLayout_3->count()>1)
     {
         DynamicLineEdit *lineEdit = qobject_cast<DynamicLineEdit*>(ui->verticalLayout_3->itemAt(ui->verticalLayout_3->count()-2)->widget());
@@ -151,7 +147,6 @@ void Editor::on_addAns_clicked()
                  temp.a->correctAnswer =i;
              }
          }
-       qDebug()<< temp.a->correctAnswer;
    });
     }
 }
@@ -186,7 +181,7 @@ void Editor::on_deleteAns_clicked()
     lineEdit->hide();
     delete lineEdit;
     }
-    qDebug()<< ui->verticalLayout_3->count();
+
     if(ui->verticalLayout_3->count()>1){
     DynamicLineEdit *lineEdit = qobject_cast<DynamicLineEdit*>(ui->verticalLayout_3->itemAt(ui->verticalLayout_3->count()-1)->widget());
     lineEdit->setReadOnly(false);
@@ -205,6 +200,10 @@ void Editor::on_deleteAns_clicked()
     radioButton->hide();
     delete radioButton;
     }
+
+    questionStruct &temp =QuestionVector->back();
+    temp.a->options.pop_back();
+    emit findDifficult();
     }
 }
 void Editor::slotGetNumber()
@@ -355,17 +354,14 @@ void Editor::on_textEdit_2_textChanged()
     questionStruct &temp =QuestionVector->back();
     temp.b->correctAnswer=ui->textEdit_2->document()->toRawText();
     questionStruct &temp1 =QuestionVector->back();
-    qDebug()<< temp1.b->correctAnswer;
     }
 }
 void Editor::editOfDynamicEditText()
 {
         DynamicLineEdit *lineEdit = qobject_cast<DynamicLineEdit*>(ui->verticalLayout_3->itemAt(ui->verticalLayout_3->count()-1)->widget());
         questionStruct &temp =QuestionVector->back();
-        qDebug()<< "text " << (lineEdit->displayText());
         temp.a->options.at(ui->verticalLayout_3->count()-1).first = (lineEdit->displayText());
         questionStruct &temp1 =QuestionVector->back();
-        qDebug()<< "first  "<< temp1.a->options.at(ui->verticalLayout_3->count()-1).first;
 }
 
 
@@ -396,3 +392,23 @@ void Editor::on_saveButton_clicked()
     system->saveQuestions(test,"D:/save.txt");
 }
 
+void Editor::findDifficult()
+{
+    questionStruct &temp =QuestionVector->back();
+            switch (temp.a->difficulty) {
+        case Difficulty::EASY:
+            ui->easyRadioButton->setChecked(true);
+            emit on_easyRadioButton_clicked(1);
+            break;
+        case Difficulty::MIDDLE:
+            ui->normRadioButton->toggled(true);
+            emit on_normRadioButton_clicked(1);
+            break;
+        case Difficulty::HARD:
+            ui->hardRadioButton->toggle();
+            emit on_hardRadioButton_clicked(1);
+            break;
+        default:
+            break;
+    }
+}

@@ -48,7 +48,7 @@ class Question
 class TestQuestion : public Question
 {
 public:
-    vector<pair<QString, QString>> options{ { "Empty answer 1", "" }, { "Empty answer 2", "" } };
+    vector<pair<QString, QString>> options;
     size_t correctAnswer = 0;
 
     TestQuestion(){}
