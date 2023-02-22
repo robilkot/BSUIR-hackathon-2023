@@ -30,11 +30,11 @@ E:/work/hackathon-2023/hackathon-2023/Photos/Sapega.jpg
 4) Union
 (3)
 5. Which picture does show Ignat Domeiko?
-c:\\\\
-c:\\\
+NOone
+E:/work/hackathon-2023/hackathon-2023/Photos/Domeiko.jpg
 *
-c:\\\
-c:\\\
+E:/work/hackathon-2023/hackathon-2023/Photos/Sapega.jpg
+E:/work/hackathon-2023/hackathon-2023/Photos/Sapega.jpg
 (2)
 6. Dates of the three collapses of the Commonwealth
 *

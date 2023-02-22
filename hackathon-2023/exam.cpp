@@ -31,13 +31,25 @@ public:
     {
         // Create labels for text and image
         QLabel *textLabel = new QLabel(text);
-        QLabel *imageLabel = new QLabel;
-        imageLabel->setPixmap(pixmap);
+        QLabel *imageLabel;
+
+        textLabel->setWordWrap(true);
 
         // Create layout for item
         QHBoxLayout *layout = new QHBoxLayout;
         layout->addWidget(textLabel);
-        layout->addWidget(imageLabel);
+
+        if(!pixmap.isNull()) {
+            pixmap = pixmap.scaled(pixmap.width() / pixmap.height() * 100,  100);
+
+            imageLabel = new QLabel;
+            imageLabel->setPixmap(pixmap);
+            imageLabel->setMask(pixmap.mask());
+
+            imageLabel->setFixedSize(pixmap.width(), pixmap.height());
+            layout->addWidget(imageLabel);
+        } //else
+            //imageLabel->clear();
 
         // Set layout for item
         QWidget *widget = new QWidget;
@@ -132,6 +144,7 @@ void Exam::nextQuestion()
         ui->answerLayout->addWidget(list); // Кидаем его на лейаут
 
         for(const auto& option : newQuestion.testQuestion.options) { // Заполняем список
+            qDebug() << option.second << "\n";
             CustomListItem *newOption = new CustomListItem(option.first, QPixmap(option.second), list);
             list->addItem(newOption);
         }
@@ -154,8 +167,14 @@ void Exam::nextQuestion()
     case Questions::OPEN: // Если вопрос открытый
     {
         ui->questionText->setText(newQuestion.openQuestion.task.first);
-        ui->questionPhoto->setPixmap(QPixmap(newQuestion.openQuestion.task.second)); // Текст и фото вопроса ставим
 
+        QPixmap* pixmap = new QPixmap(newQuestion.openQuestion.task.second);
+        if(!pixmap->isNull()) {
+            ui->questionPhoto->setPixmap(*pixmap); // Текст и фото вопроса ставим
+            ui->questionPhoto->setMask(pixmap->mask());
+            ui->questionPhoto->setFixedSize(pixmap->width() * ui->questionText->height() / pixmap->height(),  ui->questionText->height());
+        } else
+            ui->questionPhoto->clear();
         QLineEdit *lineEdit = new QLineEdit;
 
         ui->answerLayout->addWidget(lineEdit); // Создаем строку для ввода
