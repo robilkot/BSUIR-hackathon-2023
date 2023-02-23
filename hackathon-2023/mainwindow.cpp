@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->logo->setPixmap(QPixmap(":/icons/books.png"));
 
     this->setFixedSize(QSize(400, 400));
-    path= "D:/BSUIR-hackathon-2023-main/hackathon-2023/input.txt";
+    path= "E:/work/hackathon-2023/hackathon-2023/input.txt";
     read(path);
 
     choiceWindow = new Choice();

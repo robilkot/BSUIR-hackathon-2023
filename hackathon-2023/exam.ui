@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Exam</string>
+   <string>Exam emulator</string>
   </property>
   <layout class="QGridLayout" name="gridLayout" columnstretch="3,1">
    <property name="leftMargin">
