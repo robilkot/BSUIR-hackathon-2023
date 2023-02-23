@@ -22,3 +22,19 @@ void Settings::on_menuButton_clicked()
     emit mainWindow();  // Сигнал на открытие главного окна
 }
 
+
+void Settings::on_pathEdit_textChanged(const QString &arg1)
+{
+    path=arg1;
+}
+
+QString Settings::getPath() const
+{
+    return path;
+}
+
+void Settings::setPath(const QString &newPath)
+{
+    path = newPath;
+}
+

@@ -34,8 +34,9 @@ private slots:
     void openExamWindow();
 
     void updateQueue();
-
+    void setPath();
 private:
+    QString path;
     Choice *choiceWindow;
     Settings *settingsWindow;
     Editor *editorWindow;

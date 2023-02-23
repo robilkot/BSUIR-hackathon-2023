@@ -17,8 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->logo->setPixmap(QPixmap(":/icons/books.png"));
 
     this->setFixedSize(QSize(400, 400));
-
-    read("E:/work/hackathon-2023/hackathon-2023/input.txt");
+    path= "D:/BSUIR-hackathon-2023-main/hackathon-2023/input.txt";
+    read(path);
 
     choiceWindow = new Choice();
     //соединяю слот открытия главного окна с кнопкой в окне выбора сложности
@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     settingsWindow= new Settings();
      //соединяю слот открытия главного окна с кнопкой в окне редактора
     connect(settingsWindow,&Settings::mainWindow,this,&MainWindow::show);
+    connect(settingsWindow,&Settings::mainWindow,this,&MainWindow::setPath);
 
     editorWindow = new Editor();
     //соединяю слот открытия главного окна с кнопкой в окне настроек
@@ -97,6 +98,13 @@ void MainWindow::openExamWindow()
 void MainWindow::updateQueue()
 {
     examWindow->setQuestionsQueue(choiceWindow->getTest());
+}
+
+void MainWindow::setPath()
+{
+path= settingsWindow->getPath();
+test.clear();
+read(path);
 }
 
 
