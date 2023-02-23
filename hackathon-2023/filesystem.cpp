@@ -85,6 +85,7 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
                }
                else {
                    if(!buf_2.isEmpty()){
+                       test[i].questions=Questions::TEST;
                        test[i].testQuestion.task.first=buf_1;
                        test[i].testQuestion.task.second=buf_2;
 
@@ -105,7 +106,7 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
            else if(temp=="**"){
                temp=s.readLine();
                test[i].openQuestion.task.first=buf_1;
-
+               test[i].questions=Questions::OPEN;
                test[i].openQuestion.correctAnswer=temp;
                if(!buf_2.isEmpty())test[i].openQuestion.task.second=buf_2;
                buf_1="";
@@ -121,6 +122,7 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
                    buf_2="";
                }
                if(!buf_1.isEmpty()){
+                   test[i].questions=Questions::TEST;
                    test[i].testQuestion.task.first=buf_1;
 
                    buf_1="";
