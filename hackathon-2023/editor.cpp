@@ -326,22 +326,20 @@ void Editor::on_saveButton_clicked()
     vector<TestElement> test;
     for(int i=0;i<QuestionVector->size();++i)
     {
-        questionStruct &temp =QuestionVector->at(i);
+        questionStruct &temp = QuestionVector->at(i);
         TestElement *tempEl = new TestElement();
         tempEl->testQuestion = *temp.a;
         tempEl->openQuestion = *temp.b;
-        if(!temp.type)
-        {
+        if(!temp.type) {
             tempEl->questions=Questions::TEST;
         }
-        else
-        {
+        else {
              tempEl->questions=Questions::OPEN;
         }
         test.push_back(*tempEl);
     }
-    FileSystem *system = new FileSystem();
-    system->saveQuestions(test,"D:/save.txt");
+    FileSystem system;
+    system.saveQuestions(test, "D:/save.txt");
 }
 
 

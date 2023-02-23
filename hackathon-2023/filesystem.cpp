@@ -1,9 +1,6 @@
 #include "filesystem.h"
 
-FileSystem::FileSystem()
-{
-
-}
+FileSystem::FileSystem() { }
 
 void FileSystem::readQuestions(vector<TestElement> &test, QString path)
 {
@@ -142,9 +139,7 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
     }
 }
 
-
-
-void save(vector<TestElement>& test) {
+void FileSystem::saveQuestions(vector<TestElement>& test, QString path) {
     QFile file(path);
     QTextStream st(&file);
     if (file.open(QFile::WriteOnly)) {
