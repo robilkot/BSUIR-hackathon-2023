@@ -6,7 +6,7 @@ void FileSystem::readQuestions(vector<TestElement> &test, QString path)
 {
     bool correct = false,
             only_pic = false,
-            need = false,
+            need = true,
             open=false;
 
     QFile file(path);
