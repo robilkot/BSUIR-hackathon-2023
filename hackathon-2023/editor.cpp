@@ -78,7 +78,17 @@ void Editor::on_deleteQButon_clicked()
      QuestionVector->pop_back();
         if(!QuestionVector->empty())
         {
-            ui->textEdit->setText(QuestionVector->back().a->task.first);
+            if(!QuestionVector->back().type)
+            {
+                ui->textEdit->setText(QuestionVector->back().a->task.first);
+                emit on_comboBox_activated(0);
+            }
+            else
+            {
+                ui->textEdit->setText(QuestionVector->back().b->task.first);
+                emit on_comboBox_activated(1);
+            }
+
             ui->textEdit_2->setText(QuestionVector->back().b->correctAnswer);
             int count = ui->verticalLayout_4->count();
             for(int i=0;i<count;i++)
@@ -95,11 +105,12 @@ void Editor::updateTable()
 {
     if(!QuestionVector->empty())
     {
+
         ui->tableWidget->setRowCount(QuestionVector->size());
     for(int i=0;i<QuestionVector->size();i++)
     {
         QTableWidgetItem* temp;
-        QTableWidgetItem* temp1;
+        QTableWidgetItem* tempType;
         if(!QuestionVector->at(i).type)//если testQuestion
         {
             TestQuestion *q =QuestionVector->at(i).a;
@@ -109,11 +120,22 @@ void Editor::updateTable()
         {
             OpenQuestion *q = QuestionVector->at(i).b;
             temp = new QTableWidgetItem(q->task.first);
+
         }
-        temp1 = new QTableWidgetItem(QString::fromStdString(to_string(QuestionVector->at(i).type)));
+
+        if(!QuestionVector->at(i).type)
+        {
+            tempType = new QTableWidgetItem("Test");
+        }
+        else
+        {
+            tempType = new QTableWidgetItem("Open");
+        }
         ui->tableWidget->setItem(i,0,temp);
-         ui->tableWidget->setItem(i,1,temp1);
+         ui->tableWidget->setItem(i,1,tempType);
+
     }
+
     }
 }
 
@@ -316,11 +338,6 @@ void Editor::editOfDynamicEditText()
         questionStruct &temp1 =QuestionVector->back();
 }
 
-
-
-
-
-
 void Editor::on_saveButton_clicked()
 {
     vector<TestElement> test;
@@ -430,10 +447,12 @@ void Editor::editorStart(){
         if(temp.questions==Questions::OPEN)
         {
             a.type=1;
+
         }
         else if(temp.questions==Questions::TEST)
         {
              a.type=0;
+             a.b->task.first=a.a->task.first;
         }
         else
         {
@@ -444,5 +463,17 @@ void Editor::editorStart(){
         qDebug()<< QuestionVector->size();
         emit updateTable();
     }
+    if(!QuestionVector->back().type)
+    {
+        ui->textEdit->setText(QuestionVector->back().a->task.first);
+
+    }
+    else
+    {
+        ui->textEdit->setText(QuestionVector->back().b->task.first);
+        ui->textEdit_2->setText(QuestionVector->back().b->correctAnswer);
+        emit on_comboBox_activated(1 );
+    }
+
 
 }
