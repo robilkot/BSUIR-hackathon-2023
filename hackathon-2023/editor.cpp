@@ -328,13 +328,14 @@ void Editor::on_saveButton_clicked()
     {
         questionStruct &temp = QuestionVector->at(i);
         TestElement *tempEl = new TestElement();
-        tempEl->testQuestion = *temp.a;
-        tempEl->openQuestion = *temp.b;
+
         if(!temp.type) {
             tempEl->questions=Questions::TEST;
+            tempEl->testQuestion = *temp.a;
         }
         else {
              tempEl->questions=Questions::OPEN;
+             tempEl->openQuestion = *temp.b;
         }
         test.push_back(*tempEl);
     }

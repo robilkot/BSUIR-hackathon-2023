@@ -33,7 +33,7 @@ class Question
     Difficulty difficulty = Difficulty::MIDDLE;
     Subject subject = Subject::NONSPECIFIED;
 
-    pair<QString, QString> task{ "Empty question", "" };
+    pair<QString, QString> task;
 
     Question(Difficulty difficulty, Subject subject, QString task, QString photoPath) {
         this->difficulty = difficulty;
